@@ -1,0 +1,20 @@
+{
+  "presets": ["esnext"],
+  "plugins": [
+    "transform-class-properties",
+    "transform-react-jsx",
+    "transform-object-rest-spread",
+    [
+      "module-resolver",
+      {
+        "root": ["./src"]
+      }
+    ],
+    ["import-rename", { "^(.*)\\.jsx$": "$1" }]
+  ],
+  "env": {
+    "production": {
+      "plugins": ["transform-remove-console"]
+    }
+  }
+}
