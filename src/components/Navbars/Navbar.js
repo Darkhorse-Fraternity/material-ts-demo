@@ -10,10 +10,10 @@ import Hidden from '@material-ui/core/Hidden';
 // @material-ui/icons
 import Menu from '@material-ui/icons/Menu';
 // core components
-import Button from 'components/CustomButtons/Button.js';
-import styles from 'assets/jss/material-dashboard-react/components/headerStyle.js';
-import AdminNavbarLinks from './AdminNavbarLinks.js';
-import RTLNavbarLinks from './RTLNavbarLinks.js';
+import Button from 'components/CustomButtons/Button';
+import styles from 'assets/jss/material-dashboard-react/components/headerStyle';
+import AdminNavbarLinks from './AdminNavbarLinks';
+import RTLNavbarLinks from './RTLNavbarLinks';
 
 
 const useStyles = makeStyles(styles);
