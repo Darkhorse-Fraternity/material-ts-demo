@@ -35,6 +35,7 @@
         "ignoreRestArgs": true
       }
     ],
+    "@typescript-eslint/camelcase": "off", // https://github.com/typescript-eslint/typescript-eslint/issues/2077
     "max-len": [
       "warn",
       {
