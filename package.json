@@ -26,8 +26,7 @@
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src --color",
     "lint:fix": "eslint --ext .js,.jsx,.ts,.tsx src --color  --fix;",
     "format": "prettier --write src/**/*.{ts,tsx,scss,css,json}",
-    "isready": "yarn format && yarn lint && yarn build",
-    "@testing-library/jest-dom": "^4.2.4"
+    "isready": "yarn format && yarn lint && yarn build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -45,6 +44,7 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^10.0.4",
     "@testing-library/user-event": "^10.3.5",
     "@types/history": "^4.7.6",

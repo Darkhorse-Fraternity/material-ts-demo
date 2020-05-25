@@ -5,6 +5,7 @@ import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import Admin from 'layouts/Admin';
 
 import * as serviceWorker from './serviceWorker';
+import 'assets/css/material-dashboard-react.css?v=1.8.0';
 
 const hist = createBrowserHistory();
 
