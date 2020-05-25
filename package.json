@@ -3,13 +3,20 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1",
     "@material-ui/core": "4.3.2",
     "@material-ui/icons": "4.2.1",
+    "@types/react-router-dom": "^5.1.5",
+    "chartist": "0.10.1",
     "classnames": "2.2.6",
-    "prop-types": "15.7.2"
+    "history": "4.9.0",
+    "perfect-scrollbar": "1.4.0",
+    "prop-types": "15.7.2",
+    "react": "^16.13.1",
+    "react-chartist": "0.13.3",
+    "react-dom": "^16.13.1",
+    "react-router-dom": "5.0.1",
+    "react-scripts": "3.4.1",
+    "react-swipeable-views": "0.13.3"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -17,8 +24,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src --color",
+    "lint:fix": "eslint --ext .js,.jsx,.ts,.tsx src --color  --fix;",
     "format": "prettier --write src/**/*.{ts,tsx,scss,css,json}",
-    "isready": "npm run format && npm run lint && npm run build",
+    "isready": "yarn format && yarn lint && yarn build",
     "@testing-library/jest-dom": "^4.2.4"
   },
   "eslintConfig": {
@@ -39,6 +47,7 @@
   "devDependencies": {
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "@types/history": "^4.7.6",
     "@types/jest": "^24.0.0",
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.0",
