@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { FC } from 'react';
 // nodejs library to set properties for components
-import PropTypes from 'prop-types';
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
+import Grid, { GridSize } from '@material-ui/core/Grid';
+import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 
 const styles = {
   grid: {
@@ -13,7 +13,10 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-export default function GridItem(props) {
+// type AGrid = typeof Grid
+// type ViewProps = AGrid['props'];
+
+const  GridItem:FC<Partial<Record<Breakpoint, boolean | GridSize>>> = props=> {
   const classes = useStyles();
   const { children, ...rest } = props;
   return (
@@ -21,8 +24,7 @@ export default function GridItem(props) {
       {children}
     </Grid>
   );
-}
-
-GridItem.propTypes = {
-  children: PropTypes.node
 };
+
+
+export default GridItem;
