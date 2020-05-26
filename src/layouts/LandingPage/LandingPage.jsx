@@ -3,7 +3,9 @@ import React from 'react';
 import classNames from 'classnames';
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles';
-
+import {
+  Link,
+} from 'react-router-dom';
 // @material-ui/icons
 
 // core components
@@ -55,16 +57,19 @@ export default function LandingPage(props) {
                 impression.
               </h5>
               <br />
-              <Button
-                color="danger"
-                size="lg"
-                href="/login-page"
-                target="_self"
-                rel="noopener noreferrer"
-              >
-                <i className="fas fa-play" />
-                点击登录
-              </Button>
+              <Link to="/login-page">
+                <Button
+                  color="danger"
+                  size="lg"
+                //   href="/login-page"
+                //   target="_self"
+                  rel="noopener noreferrer"
+                >
+               
+                  <i className="fas fa-play" />
+                  点击登录
+                </Button>
+              </Link>
             </GridItem>
           </GridContainer>
         </div>

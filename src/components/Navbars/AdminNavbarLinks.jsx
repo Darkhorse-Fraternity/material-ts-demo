@@ -20,6 +20,9 @@ import CustomInput from 'components/CustomInput/CustomInput';
 import Button from 'components/CustomButtons/Button';
 
 import styles from 'assets/jss/material-dashboard-react/components/headerLinksStyle';
+import {
+  Link,
+} from 'react-router-dom';
 
 const useStyles = makeStyles(styles);
 
@@ -206,12 +209,14 @@ export default function AdminNavbarLinks() {
                       Settings
                     </MenuItem>
                     <Divider light />
-                    <MenuItem
-                      onClick={handleCloseProfile}
-                      className={classes.dropdownItem}
-                    >
-                      Logout
-                    </MenuItem>
+                    <Link to="/login-page">
+                      <MenuItem
+                    //   onClick={handleCloseProfile}
+                        className={classes.dropdownItem}
+                      >
+                        Logout
+                      </MenuItem>
+                    </Link>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>

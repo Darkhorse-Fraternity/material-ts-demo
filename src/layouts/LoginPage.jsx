@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -18,6 +18,11 @@ import CardBody from 'components/Card2/CardBody';
 import CardHeader from 'components/Card2/CardHeader';
 import CardFooter from 'components/Card2/CardFooter';
 import CustomInput from 'components/CustomInput/CustomInput';
+import { DataContext } from 'components/DataContext';
+import {
+  useHistory,
+} from 'react-router-dom';
+
 
 import styles from 'assets/jss/material-kit-react/views/loginPage';
 
@@ -32,6 +37,9 @@ export default function LoginPage(props) {
   }, 700);
   const classes = useStyles();
   const { ...rest } = props;
+
+  const { dispatch } = useContext(DataContext);
+  const history = useHistory();
   return (
     <div>
       <Header
@@ -138,7 +146,16 @@ export default function LoginPage(props) {
                     />
                   </CardBody>
                   <CardFooter className={classes.cardFooter}>
-                    <Button simple color="primary" size="lg" href="/admin">
+                    <Button
+                      simple
+                      color="primary"
+                      size="lg"
+                      onClick={()=>{
+                        dispatch({ type:'login', user:{ id:'111' } });
+                        history.replace('/admin');
+
+                      }}
+                    >
                       Get started
                     </Button>
                   </CardFooter>
