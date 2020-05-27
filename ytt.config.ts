@@ -37,7 +37,7 @@ const getRequestFunctionName = (
 ) => {
   const { name, dir } = interfaceInfo.parsedPath;
   const dirString = dir.replace(/\//g, ' ');
-  return changeCase.camelCase(`${dirString} ${name}`);
+  return changeCase.camelCase(`leancloud_${dirString}_${name}`);
 };
 
 const config: Config = [
@@ -48,7 +48,7 @@ const config: Config = [
       enabled: true,
     },
     devEnvName: 'dev',
-    prodEnvName: 'prod',
+    // prodEnvName: 'prod',
     outputFilePath: 'src/api/index.ts',
     requestFunctionFilePath: 'src/api/request.ts',
     projects: [
@@ -56,7 +56,7 @@ const config: Config = [
         token,
         categories: [
           {
-            id: [26],
+            id: [18], 
             getRequestFunctionName,
           },
         ],
