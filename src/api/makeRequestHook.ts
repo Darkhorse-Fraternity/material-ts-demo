@@ -1,28 +1,44 @@
-import { useState, useEffect } from 'react';
 import { RequestConfig } from 'yapi-to-typescript';
 import { Request } from './index';
 import baseRequest from './request';
+import { leancloudHeaders } from './leancloud';
+import useApi, { Config } from './useApi';
 
-export default function makeRequestHook<TRequestData, TRequestConfig extends RequestConfig, TRequestResult extends ReturnType<typeof baseRequest>>(request: Request<TRequestData, TRequestConfig, TRequestResult>) {
+export default function makeRequestHook<
+  TRequestData,
+  TRequestConfig extends RequestConfig,
+  TRequestResult extends ReturnType<typeof baseRequest>
+>(requestConfig: Request<TRequestData, TRequestConfig, TRequestResult>) {
   type Data = TRequestResult extends Promise<infer R> ? R : TRequestResult;
-  return function useRequest(requestData: TRequestData) {
+  return function useRequest(
+    requestData: TRequestData,
+    config?: Config<unknown, unknown> & { autoTrigger?: boolean }
+  ) {
     // 一个简单的 Hook 实现，实际项目可结合其他库使用，比如：
     // @umijs/hooks 的 useRequest (https://github.com/umijs/hooks)
     // swr (https://github.com/zeit/swr)
 
-    const [loading, setLoading] = useState(true);
-    const [data, setData] = useState<Data>();
+    // };
+    // 这边废弃普通promise的调用 直接使用 useSWR
+    const { payload, options } = requestConfig(requestData);
+    const { path, method, data, devUrl, prodUrl } = payload;
+    const baseURL = options.server === 'dev' ? devUrl : prodUrl;
 
-    useEffect(() => {
-      request(requestData).then(data => {
-        setLoading(false);
-        setData(data as any);
-      });
-    }, [JSON.stringify(requestData)]);
+    const { autoTrigger = true, ...restConfig } = config || {};
 
-    return {
-      loading,
-      data,
-    };
+    return useApi(
+      {
+        baseURL,
+        url: path,
+        method,
+        headers: leancloudHeaders,
+        data,
+      },
+      {
+        revalidateOnFocus: autoTrigger,
+        revalidateOnReconnect: autoTrigger,
+        ...restConfig,
+      }
+    );
   };
 }

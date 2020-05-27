@@ -16,20 +16,8 @@ export interface RequestOptions {
 export default function request<TResponseData>(
   payload: RequestFunctionParams,
   options: RequestOptions = {
-    server: 'prod',
+    server: 'dev',
   },
-): Promise<TResponseData> {
-  return new Promise<TResponseData>((resolve, reject) => {
-    // 基本地址
-    // const baseUrl = options.server === 'mock'
-    //   ? payload.mockUrl
-    //   : options.server === 'dev'
-    //     ? payload.devUrl
-    //     : payload.prodUrl;
-
-    // // 请求地址
-    // const url = `${baseUrl}${payload.path}`;
-
-    // 具体请求逻辑
-  });
+) {
+  return { payload, options };
 }

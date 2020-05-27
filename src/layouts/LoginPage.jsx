@@ -19,7 +19,9 @@ import CardHeader from 'components/Card2/CardHeader';
 import CardFooter from 'components/Card2/CardFooter';
 import CustomInput from 'components/CustomInput/CustomInput';
 import { DataContext } from 'components/DataContext';
-
+import {
+  useApiLogin,
+} from 'api';
 
 import styles from 'assets/jss/material-kit-react/views/loginPage';
 
@@ -36,6 +38,10 @@ export default function LoginPage(props) {
   const { ...rest } = props;
 
   const { dispatch } = useContext(DataContext);
+
+  const { data } = useApiLogin({ username:'admin', password:'a123456' });
+  console.log('data', data);
+  
   return (
     <div>
       <Header

@@ -62,7 +62,7 @@ const dataKey_0_0_0_0 = undefined as any
  * @请求头 `POST /1.1/login`
  * @更新时间 `2020-05-27 11:27:26`
  */
-export interface Leancloud_1_1LoginRequest {
+export interface ApiLoginRequest {
   username: string
   password: string
 }
@@ -74,7 +74,7 @@ export interface Leancloud_1_1LoginRequest {
  * @请求头 `POST /1.1/login`
  * @更新时间 `2020-05-27 11:27:26`
  */
-export interface Leancloud_1_1LoginResponse {
+export interface ApiLoginResponse {
   sessionToken: string
   updatedAt: string
   objectId: string
@@ -91,7 +91,7 @@ export interface Leancloud_1_1LoginResponse {
  * @请求头 `POST /1.1/login`
  * @更新时间 `2020-05-27 11:27:26`
  */
-type Leancloud_1_1LoginRequestConfig = Readonly<
+type ApiLoginRequestConfig = Readonly<
   RequestConfig<
     'http://121.89.170.197:3000/mock/17',
     'https://jrfwyncx.lc-cn-n1-shared.com',
@@ -110,7 +110,7 @@ type Leancloud_1_1LoginRequestConfig = Readonly<
  * @请求头 `POST /1.1/login`
  * @更新时间 `2020-05-27 11:27:26`
  */
-const leancloud_1_1LoginRequestConfig: Leancloud_1_1LoginRequestConfig = {
+const apiLoginRequestConfig: ApiLoginRequestConfig = {
   mockUrl: mockUrl_0_0_0_0,
   devUrl: devUrl_0_0_0_0,
   prodUrl: prodUrl_0_0_0_0,
@@ -130,11 +130,7 @@ const leancloud_1_1LoginRequestConfig: Leancloud_1_1LoginRequestConfig = {
  * @请求头 `POST /1.1/login`
  * @更新时间 `2020-05-27 11:27:26`
  */
-export const leancloud_1_1Login = makeRequest<
-  Leancloud_1_1LoginRequest,
-  Leancloud_1_1LoginResponse,
-  Leancloud_1_1LoginRequestConfig
->(leancloud_1_1LoginRequestConfig)
+export const apiLogin = makeRequest<ApiLoginRequest, ApiLoginResponse, ApiLoginRequestConfig>(apiLoginRequestConfig)
 
 /**
  * 接口 [登录↗](http://121.89.170.197:3000/project/17/interface/api/8) 的 **React Hook**
@@ -143,10 +139,8 @@ export const leancloud_1_1Login = makeRequest<
  * @请求头 `POST /1.1/login`
  * @更新时间 `2020-05-27 11:27:26`
  */
-export const useLeancloud_1_1Login = makeRequestHook<
-  Leancloud_1_1LoginRequest,
-  Leancloud_1_1LoginRequestConfig,
-  ReturnType<typeof leancloud_1_1Login>
->(leancloud_1_1Login)
+export const useApiLogin = makeRequestHook<ApiLoginRequest, ApiLoginRequestConfig, ReturnType<typeof apiLogin>>(
+  apiLogin,
+)
 
 /* prettier-ignore-end */

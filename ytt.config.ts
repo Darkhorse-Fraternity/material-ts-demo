@@ -37,7 +37,7 @@ const getRequestFunctionName = (
 ) => {
   const { name, dir } = interfaceInfo.parsedPath;
   const dirString = dir.replace(/\//g, ' ');
-  return changeCase.camelCase(`leancloud_${dirString}_${name}`);
+  return changeCase.camelCase(`api_${name}`);
 };
 
 const config: Config = [
