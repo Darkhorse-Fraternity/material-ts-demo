@@ -1,7 +1,7 @@
 import useSWR, { ConfigInterface, responseInterface } from 'swr';
-import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
+import  { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 
-export type GetRequest = AxiosRequestConfig | null ;
+export type RequestDataType = AxiosRequestConfig | null ;
 
 interface Return<Data, Error>
   extends Pick<
@@ -21,26 +21,27 @@ export interface Config<Data = unknown, Error = unknown>
 }
 
 export default function useApi<Data = unknown, Error = unknown>(
-  request: GetRequest,
+  data: RequestDataType,
+  reuqest:Function,
   { initialData, ...config }: Config<Data, Error> = {}
 ): Return<Data, Error> {
   const { data: response, error, isValidating, revalidate, mutate } = useSWR<
   AxiosResponse<Data>,
   AxiosError<Error>
   >(
-    request && JSON.stringify(request),
+    data && JSON.stringify(data), // 只做重载使用
     /**
      * NOTE: Typescript thinks `request` can be `null` here, but the fetcher
      * function is actually only called by `useSWR` when it isn't.
      */
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    () => axios(request!),
+    () => reuqest(),
     {
       ...config,
       initialData: initialData && {
         status: 200,
         statusText: 'InitialData',
-        config: request || {} as AxiosRequestConfig,
+        config:  data || {} as AxiosRequestConfig,
         headers: {},
         data: initialData
       }

@@ -1,4 +1,6 @@
 import { RequestFunctionParams } from 'yapi-to-typescript';
+import axios, { AxiosResponse } from 'axios';
+import { leancloudHeaders } from './leancloud';
 
 export interface RequestOptions {
   /**
@@ -10,14 +12,23 @@ export interface RequestOptions {
    *
    * @default prod
    */
-  server?: 'prod' | 'dev' | 'mock',
+  server?: 'prod' | 'dev' | 'mock';
 }
 
 export default function request<TResponseData>(
   payload: RequestFunctionParams,
   options: RequestOptions = {
     server: 'dev',
-  },
-) {
-  return { payload, options };
+  }
+): Promise<AxiosResponse<TResponseData>> {
+  const { path, method, data, devUrl, prodUrl } = payload;
+  const baseURL = options.server === 'dev' ? devUrl : prodUrl;
+  //   return { payload, options };
+  return axios({
+    baseURL,
+    url: path,
+    method,
+    headers: leancloudHeaders,
+    data,
+  });
 }
