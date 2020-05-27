@@ -19,9 +19,6 @@ import CardHeader from 'components/Card2/CardHeader';
 import CardFooter from 'components/Card2/CardFooter';
 import CustomInput from 'components/CustomInput/CustomInput';
 import { DataContext } from 'components/DataContext';
-import {
-  useHistory,
-} from 'react-router-dom';
 
 
 import styles from 'assets/jss/material-kit-react/views/loginPage';
@@ -39,7 +36,6 @@ export default function LoginPage(props) {
   const { ...rest } = props;
 
   const { dispatch } = useContext(DataContext);
-  const history = useHistory();
   return (
     <div>
       <Header
@@ -152,7 +148,6 @@ export default function LoginPage(props) {
                       size="lg"
                       onClick={()=>{
                         dispatch({ type:'login', user:{ id:'111' } });
-                        history.replace('/admin');
 
                       }}
                     >

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import classNames from 'classnames';
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles';
@@ -18,11 +18,8 @@ import Search from '@material-ui/icons/Search';
 // core components
 import CustomInput from 'components/CustomInput/CustomInput';
 import Button from 'components/CustomButtons/Button';
-
+import { DataContext } from 'components/DataContext';
 import styles from 'assets/jss/material-dashboard-react/components/headerLinksStyle';
-import {
-  Link,
-} from 'react-router-dom';
 
 const useStyles = makeStyles(styles);
 
@@ -30,6 +27,10 @@ export default function AdminNavbarLinks() {
   const classes = useStyles();
   const [openNotification, setOpenNotification] = React.useState(null);
   const [openProfile, setOpenProfile] = React.useState(null);
+
+  const { dispatch } = useContext(DataContext); 
+
+
   const handleClickNotification = event => {
     if (openNotification && openNotification.contains(event.target)) {
       setOpenNotification(null);
@@ -209,14 +210,14 @@ export default function AdminNavbarLinks() {
                       Settings
                     </MenuItem>
                     <Divider light />
-                    <Link to="/login-page">
-                      <MenuItem
-                    //   onClick={handleCloseProfile}
-                        className={classes.dropdownItem}
-                      >
-                        Logout
-                      </MenuItem>
-                    </Link>
+                    <MenuItem
+                      onClick={()=>{
+                        dispatch({ type:'logout' });
+                      }}
+                      className={classes.dropdownItem}
+                    >
+                      Logout
+                    </MenuItem>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>

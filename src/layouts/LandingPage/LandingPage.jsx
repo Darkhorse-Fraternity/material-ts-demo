@@ -57,11 +57,11 @@ export default function LandingPage(props) {
                 impression.
               </h5>
               <br />
-              <Link to="/login-page">
+              <Link to="/login">
                 <Button
                   color="danger"
                   size="lg"
-                //   href="/login-page"
+                //   href="/login"
                 //   target="_self"
                   rel="noopener noreferrer"
                 >
