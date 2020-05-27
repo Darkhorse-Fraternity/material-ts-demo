@@ -1,12 +1,18 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { DataContext, Provider } from 'components/DataContext';
 import ReactDOM from 'react-dom';
 import { createBrowserHistory } from 'history';
-import { Router, Route, Switch, Redirect, RouteProps, RouteComponentProps } from 'react-router-dom';
+import {
+  Router,
+  Route,
+  Switch,
+  Redirect,
+  RouteProps,
+  RouteComponentProps,
+} from 'react-router-dom';
 import Admin from 'layouts/Admin';
 import LoginPage from 'layouts/LoginPage';
 import LandingPage from 'layouts/LandingPage/LandingPage';
-
 
 import * as serviceWorker from './serviceWorker';
 import 'assets/css/material-dashboard-react.css?v=1.8.0';
@@ -14,48 +20,54 @@ import 'assets/css/material-dashboard-react.css?v=1.8.0';
 const hist = createBrowserHistory();
 
 interface ComponentType {
-  component: React.ComponentType<RouteComponentProps<{}>>
-  restricted?:boolean
+  component: React.ComponentType<RouteComponentProps<{}>>;
+  restricted?: boolean;
 }
 
-const PrivateRoute = ({ component: Component, ...rest }:
-RouteProps & ComponentType) => {
-  const { data } =  useContext(DataContext); 
+const PrivateRoute = ({
+  component: Component,
+  ...rest
+}: RouteProps & ComponentType) => {
+  const { data } = useContext(DataContext);
   const isLogin = !!data.user;
   return (
-  // Show the component only when the user is logged in
-  // Otherwise, redirect the user to /signin page
+    // Show the component only when the user is logged in
+    // Otherwise, redirect the user to /signin page
     <Route
       {...rest}
-      render={props => (
-        isLogin ?
-          <Component {...props} />
-          : <Redirect to="/login" />
-      )}
+      render={(props) =>
+        isLogin ? <Component {...props} /> : <Redirect to="/login" />}
     />
   );
 };
 
-const PublicRoute = ({ component: Component, restricted, ...rest }:
-RouteProps & ComponentType) => {
-  const { data } =  useContext(DataContext); 
+const PublicRoute = ({
+  component: Component,
+  restricted,
+  ...rest
+}: RouteProps & ComponentType) => {
+  const { data } = useContext(DataContext);
   const isLogin = !!data.user;
   return (
-  // restricted = false meaning public route
-  // restricted = true meaning restricted route
+    // restricted = false meaning public route
+    // restricted = true meaning restricted route
     <Route
       {...rest}
-      render={props => (
-        isLogin && restricted ?
+      render={(props) =>
+        isLogin && restricted ? (
           <Redirect to="/admin" />
-          : <Component {...props} />
-      )}
+        ) : (
+          <Component {...props} />
+        )}
     />
   );
 };
 
 const OrigenRoute = () => {
-    
+  //   useEffect(() => {
+
+  //   }, []);
+
   return (
     <Router history={hist}>
       <Switch>

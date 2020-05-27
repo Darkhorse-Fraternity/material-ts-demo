@@ -1,16 +1,19 @@
 import React, { createContext, useReducer, FC } from 'react';
 
-
 export interface UserType {
-  id:string
+  sessionToken: string;
+  updatedAt: string;
+  objectId: string;
+  username: string;
+  createdAt: string;
+  emailVerified: boolean;
+  mobilePhoneVerified: boolean;
 }
 
 export interface StateType {
   user: UserType | undefined;
 }
-export type Action =
-  | {type: 'login', user: UserType }
-  | {type: 'logout'};
+export type Action = { type: 'login'; user: UserType } | { type: 'logout' };
 
 interface DataContextType {
   config: Object;
@@ -26,21 +29,30 @@ const defaultInitialState = {
   user: undefined,
 };
 
+const userString = localStorage.getItem('sessionToken');
+if (userString) {
+  const user = JSON.parse(userString);
+  //   console.log('user', user);
+  defaultInitialState.user = user;
+}
+
 export const DataContext = createContext<BaseProviderValueType>({
   data: defaultInitialState,
   dispatch: () => {},
 });
 const BaseProvider = DataContext.Provider;
 
-export const Provider: FC<DataContextType> = props => {
-  const { children,  initialState = defaultInitialState } = props;
+export const Provider: FC<DataContextType> = (props) => {
+  const { children, initialState = defaultInitialState } = props;
 
   const dataReducer = (preState: StateType, action: Action) => {
     switch (action.type) {
       case 'login':
+        localStorage.setItem('sessionToken', JSON.stringify(action.user));
         return { ...preState, user: action.user };
       case 'logout':
-        return { ...preState, user:undefined };
+        localStorage.removeItem('sessionToken');
+        return { ...preState, user: undefined };
       default:
         return { ...preState };
     }

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -41,6 +41,12 @@ export default function LoginPage(props) {
     { username: 'admin', password: 'a123456' },
     { autoTrigger: false }
   );
+
+  useEffect(() => {
+    if (data) {
+      dispatch({ type: 'login', user: data });
+    }
+  }, [data, dispatch]);
 
   return (
     <div>
@@ -153,7 +159,7 @@ export default function LoginPage(props) {
                       color="primary"
                       size="lg"
                       onClick={() => {
-                        dispatch({ type: 'login', user: { id: '111' } });
+                        revalidate();
                       }}
                     >
                       Get started
