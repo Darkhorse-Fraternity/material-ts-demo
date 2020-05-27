@@ -52,25 +52,6 @@ export const Provider: FC<DataContextType> = (props) => {
   };
 
   const [data, _dispatch] = useReducer(dataReducer, initialState);
-  //   const dataReducer = createDataReducer(initialState);
-  //   const reducer = useReducer(dataReducer, initialState);
-  //   const [data, _dispatch] = reducer;
-
-  //   const value = {
-  //     data,
-  //   };
-
-  //   const userString = localStorage.getItem('sessionToken');
-  //   if (userString) {
-  //     const user = JSON.parse(userString);
-  //     //   console.log('user', user);
-  //     //   defaultInitialState.user = user;
-  //     console.log('???');
-
-  //     setTimeout(() => {
-  //       _dispatch({ type: 'login', user });
-  //     });
-  //   }
 
   const value = {
     data,

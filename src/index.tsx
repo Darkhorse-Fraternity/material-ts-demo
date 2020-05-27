@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { DataContext, Provider } from 'components/DataContext';
 import ReactDOM from 'react-dom';
 import { createBrowserHistory } from 'history';
@@ -64,9 +64,19 @@ const PublicRoute = ({
 };
 
 const OrigenRoute = () => {
-  //   useEffect(() => {
-
-  //   }, []);
+  const { dispatch } = useContext(DataContext);
+  useEffect(() => {
+    const userString = localStorage.getItem('sessionToken');
+    if (userString) {
+      const user = JSON.parse(userString);
+      //   console.log('user', user);
+      //   defaultInitialState.user = user;
+      dispatch({ type: 'login', user });
+      //   setTimeout(() => {
+      //     _dispatch({ type: 'login', user });
+      //   }, 100);
+    }
+  }, [dispatch]);
 
   return (
     <Router history={hist}>
