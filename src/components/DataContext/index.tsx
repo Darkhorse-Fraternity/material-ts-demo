@@ -29,13 +29,6 @@ const defaultInitialState = {
   user: undefined,
 };
 
-const userString = localStorage.getItem('sessionToken');
-if (userString) {
-  const user = JSON.parse(userString);
-  //   console.log('user', user);
-  defaultInitialState.user = user;
-}
-
 export const DataContext = createContext<BaseProviderValueType>({
   data: defaultInitialState,
   dispatch: () => {},
@@ -66,6 +59,19 @@ export const Provider: FC<DataContextType> = (props) => {
   //   const value = {
   //     data,
   //   };
+
+  //   const userString = localStorage.getItem('sessionToken');
+  //   if (userString) {
+  //     const user = JSON.parse(userString);
+  //     //   console.log('user', user);
+  //     //   defaultInitialState.user = user;
+  //     console.log('???');
+
+  //     setTimeout(() => {
+  //       _dispatch({ type: 'login', user });
+  //     });
+  //   }
+
   const value = {
     data,
     dispatch: _dispatch,

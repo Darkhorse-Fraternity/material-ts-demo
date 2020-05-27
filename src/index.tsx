@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { DataContext, Provider } from 'components/DataContext';
 import ReactDOM from 'react-dom';
 import { createBrowserHistory } from 'history';

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -37,7 +37,7 @@ export default function LoginPage(props) {
 
   const { dispatch } = useContext(DataContext);
 
-  const { data, revalidate } = useApiLogin(
+  const { data, revalidate, mutate } = useApiLogin(
     { username: 'admin', password: 'a123456' },
     { autoTrigger: false }
   );
@@ -46,7 +46,10 @@ export default function LoginPage(props) {
     if (data) {
       dispatch({ type: 'login', user: data });
     }
-  }, [data, dispatch]);
+    return () => {
+      mutate(null, false);
+    };
+  }, [data, dispatch, mutate]);
 
   return (
     <div>
