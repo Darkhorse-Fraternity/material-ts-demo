@@ -65,9 +65,8 @@ export default function LandingPage(props) {
                 //   target="_self"
                   rel="noopener noreferrer"
                 >
-               
                   <i className="fas fa-play" />
-                  点击登录
+                  进入后台
                 </Button>
               </Link>
             </GridItem>

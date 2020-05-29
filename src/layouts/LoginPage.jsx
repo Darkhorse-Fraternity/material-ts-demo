@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Icon from '@material-ui/core/Icon';
 // @material-ui/icons
-import Email from '@material-ui/icons/Email';
+// import Email from '@material-ui/icons/Email';
 import People from '@material-ui/icons/People';
 // core components
 import Header from 'components/Header/Header';
@@ -74,7 +74,7 @@ export default function LoginPage(props) {
               <Card className={classes[cardAnimaton]}>
                 <form className={classes.form}>
                   <CardHeader color="primary" className={classes.cardHeader}>
-                    <h4>Login</h4>
+                    <h4>登录</h4>
                     <div className={classes.socialLine}>
                       <Button
                         justIcon
@@ -108,8 +108,8 @@ export default function LoginPage(props) {
                   <p className={classes.divider}>Or Be Classical</p>
                   <CardBody>
                     <CustomInput
-                      labelText="First Name..."
-                      id="first"
+                      labelText="账号"
+                      id="account"
                       formControlProps={{
                         fullWidth: true,
                       }}
@@ -122,7 +122,7 @@ export default function LoginPage(props) {
                         ),
                       }}
                     />
-                    <CustomInput
+                    {/* <CustomInput
                       labelText="Email..."
                       id="email"
                       formControlProps={{
@@ -136,9 +136,9 @@ export default function LoginPage(props) {
                           </InputAdornment>
                         ),
                       }}
-                    />
+                    /> */}
                     <CustomInput
-                      labelText="Password"
+                      labelText="密码"
                       id="pass"
                       formControlProps={{
                         fullWidth: true,
