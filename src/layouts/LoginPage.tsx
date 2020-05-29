@@ -26,12 +26,17 @@ import styles from 'assets/jss/material-kit-react/views/loginPage';
 
 import image from 'assets/img/bg7.jpg';
 
-const useStyles = makeStyles(styles);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const anyStyles = styles as any;
 
-export default function LoginPage(props) {
+const useStyles = makeStyles(anyStyles);
+
+interface LoginPageType {}
+
+export default function LoginPage(props: LoginPageType) {
   const [cardAnimaton, setCardAnimation] = React.useState('cardHidden');
   const { control, handleSubmit } = useForm();
-  setTimeout(function () {
+  setTimeout(()=> {
     setCardAnimation('');
   }, 700);
   const classes = useStyles();
@@ -49,7 +54,7 @@ export default function LoginPage(props) {
       dispatch({ type: 'login', user: data });
     }
     return () => {
-      mutate(null, false);
+      mutate(undefined, false);
     };
   }, [data, dispatch, mutate]);
 
@@ -181,7 +186,7 @@ export default function LoginPage(props) {
                       simple
                       color="primary"
                       size="lg"
-                      onClick={(e) => {
+                      onClick={(e: { preventDefault: () => void }) => {
                         e.preventDefault();
                         revalidate();
                       }}
