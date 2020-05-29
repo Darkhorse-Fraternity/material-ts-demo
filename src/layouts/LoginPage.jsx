@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 // @material-ui/core components
+import { useForm, Controller } from 'react-hook-form';
 import { makeStyles } from '@material-ui/core/styles';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Icon from '@material-ui/core/Icon';
@@ -29,6 +30,7 @@ const useStyles = makeStyles(styles);
 
 export default function LoginPage(props) {
   const [cardAnimaton, setCardAnimation] = React.useState('cardHidden');
+  const { control, handleSubmit } = useForm();
   setTimeout(function () {
     setCardAnimation('');
   }, 700);
@@ -78,28 +80,28 @@ export default function LoginPage(props) {
                     <div className={classes.socialLine}>
                       <Button
                         justIcon
-                        href="#pablo"
-                        target="_blank"
+                        // href="#pablo"
+                        // target="_blank"
                         color="transparent"
-                        onClick={(e) => e.preventDefault()}
+                        // onClick={(e) => e.preventDefault()}
                       >
                         <i className="fab fa-twitter" />
                       </Button>
                       <Button
                         justIcon
-                        href="#pablo"
-                        target="_blank"
+                        // href="#pablo"
+                        // target="_blank"
                         color="transparent"
-                        onClick={(e) => e.preventDefault()}
+                        // onClick={(e) => e.preventDefault()}
                       >
                         <i className="fab fa-facebook" />
                       </Button>
                       <Button
                         justIcon
-                        href="#pablo"
-                        target="_blank"
+                        // href="#pablo"
+                        // target="_blank"
                         color="transparent"
-                        onClick={(e) => e.preventDefault()}
+                        // onClick={(e) => e.preventDefault()}
                       >
                         <i className="fab fa-google-plus-g" />
                       </Button>
@@ -107,7 +109,25 @@ export default function LoginPage(props) {
                   </CardHeader>
                   <p className={classes.divider}>Or Be Classical</p>
                   <CardBody>
-                    <CustomInput
+                    <Controller
+                      as={CustomInput}
+                      formControlProps={{
+                        fullWidth: true,
+                      }}
+                      name="account"
+                      labelText="账号"
+                      control={control}
+                      inputProps={{
+                        type: 'text',
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <People className={classes.inputIconsColor} />
+                          </InputAdornment>
+                        ),
+                      }}
+                      //   defaultValue="?"
+                    />
+                    {/* <CustomInput
                       labelText="账号"
                       id="account"
                       formControlProps={{
@@ -121,7 +141,7 @@ export default function LoginPage(props) {
                           </InputAdornment>
                         ),
                       }}
-                    />
+                    /> */}
                     {/* <CustomInput
                       labelText="Email..."
                       id="email"
@@ -161,7 +181,8 @@ export default function LoginPage(props) {
                       simple
                       color="primary"
                       size="lg"
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.preventDefault();
                         revalidate();
                       }}
                     >

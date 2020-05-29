@@ -1,13 +1,13 @@
-import { container } from "assets/jss/material-kit-react.js";
+import { container } from 'assets/jss/material-kit-react';
 
 const tabsStyle = {
   section: {
-    background: "#EEEEEE",
-    padding: "70px 0"
+    background: '#EEEEEE',
+    padding: '70px 0'
   },
   container,
   textCenter: {
-    textAlign: "center"
+    textAlign: 'center'
   }
 };
 

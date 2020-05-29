@@ -1,5 +1,6 @@
 import React from 'react';
 // @material-ui/core components
+
 import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 // core components
@@ -21,7 +22,7 @@ const styles = {
     margin: '0',
     fontSize: '14px',
     marginTop: '0',
-    marginBottom: '0'
+    marginBottom: '0',
   },
   cardTitleWhite: {
     color: '#FFFFFF',
@@ -30,8 +31,8 @@ const styles = {
     fontWeight: 300,
     fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
     marginBottom: '3px',
-    textDecoration: 'none'
-  }
+    textDecoration: 'none',
+  },
 };
 
 const useStyles = makeStyles(styles);
@@ -54,10 +55,10 @@ export default function UserProfile() {
                     labelText="Company (disabled)"
                     id="company-disabled"
                     formControlProps={{
-                      fullWidth: true
+                      fullWidth: true,
                     }}
                     inputProps={{
-                      disabled: true
+                      disabled: true,
                     }}
                   />
                 </GridItem>
@@ -66,7 +67,7 @@ export default function UserProfile() {
                     labelText="Username"
                     id="username"
                     formControlProps={{
-                      fullWidth: true
+                      fullWidth: true,
                     }}
                   />
                 </GridItem>
@@ -75,7 +76,7 @@ export default function UserProfile() {
                     labelText="Email address"
                     id="email-address"
                     formControlProps={{
-                      fullWidth: true
+                      fullWidth: true,
                     }}
                   />
                 </GridItem>
@@ -86,7 +87,7 @@ export default function UserProfile() {
                     labelText="First Name"
                     id="first-name"
                     formControlProps={{
-                      fullWidth: true
+                      fullWidth: true,
                     }}
                   />
                 </GridItem>
@@ -95,7 +96,7 @@ export default function UserProfile() {
                     labelText="Last Name"
                     id="last-name"
                     formControlProps={{
-                      fullWidth: true
+                      fullWidth: true,
                     }}
                   />
                 </GridItem>
@@ -106,7 +107,7 @@ export default function UserProfile() {
                     labelText="City"
                     id="city"
                     formControlProps={{
-                      fullWidth: true
+                      fullWidth: true,
                     }}
                   />
                 </GridItem>
@@ -115,7 +116,7 @@ export default function UserProfile() {
                     labelText="Country"
                     id="country"
                     formControlProps={{
-                      fullWidth: true
+                      fullWidth: true,
                     }}
                   />
                 </GridItem>
@@ -124,7 +125,7 @@ export default function UserProfile() {
                     labelText="Postal Code"
                     id="postal-code"
                     formControlProps={{
-                      fullWidth: true
+                      fullWidth: true,
                     }}
                   />
                 </GridItem>
@@ -136,11 +137,11 @@ export default function UserProfile() {
                     labelText="Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo."
                     id="about-me"
                     formControlProps={{
-                      fullWidth: true
+                      fullWidth: true,
                     }}
                     inputProps={{
                       multiline: true,
-                      rows: 5
+                      rows: 5,
                     }}
                   />
                 </GridItem>
@@ -154,7 +155,7 @@ export default function UserProfile() {
         <GridItem xs={12} sm={12} md={4}>
           <Card profile>
             <CardAvatar profile>
-              <a href="#pablo" onClick={e => e.preventDefault()}>
+              <a href="#pablo" onClick={(e) => e.preventDefault()}>
                 <img src={avatar} alt="..." />
               </a>
             </CardAvatar>

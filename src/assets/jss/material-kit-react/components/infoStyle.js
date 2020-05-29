@@ -7,18 +7,18 @@ import {
   roseColor,
   grayColor,
   title
-} from "assets/jss/material-kit-react.js";
+} from 'assets/jss/material-kit-react';
 
 const infoStyle = {
   infoArea: {
-    maxWidth: "360px",
-    margin: "0 auto",
-    padding: "0px"
+    maxWidth: '360px',
+    margin: '0 auto',
+    padding: '0px'
   },
   iconWrapper: {
-    float: "left",
-    marginTop: "24px",
-    marginRight: "10px"
+    float: 'left',
+    marginTop: '24px',
+    marginRight: '10px'
   },
   primary: {
     color: primaryColor
@@ -42,26 +42,26 @@ const infoStyle = {
     color: grayColor
   },
   icon: {
-    width: "36px",
-    height: "36px"
+    width: '36px',
+    height: '36px'
   },
   descriptionWrapper: {
     color: grayColor,
-    overflow: "hidden"
+    overflow: 'hidden'
   },
   title,
   description: {
     color: grayColor,
-    overflow: "hidden",
-    marginTop: "0px",
-    fontSize: "14px"
+    overflow: 'hidden',
+    marginTop: '0px',
+    fontSize: '14px'
   },
   iconWrapperVertical: {
-    float: "none"
+    float: 'none'
   },
   iconVertical: {
-    width: "61px",
-    height: "61px"
+    width: '61px',
+    height: '61px'
   }
 };
 
