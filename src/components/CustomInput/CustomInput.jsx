@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
@@ -23,8 +23,12 @@ export default function CustomInput(props) {
     labelProps,
     inputProps,
     error,
-    success
+    success,
+    value,
+    ...rest
   } = props;
+
+  
 
   const labelClasses = classNames({
     [` ${  classes.labelRootError}`]: error,
@@ -60,6 +64,7 @@ export default function CustomInput(props) {
         }}
         id={id}
         {...inputProps}
+        {...rest}
       />
       {error ? (
         <Clear className={`${classes.feedback  } ${  classes.labelRootError}`} />
@@ -70,12 +75,12 @@ export default function CustomInput(props) {
   );
 }
 
-CustomInput.propTypes = {
-  labelText: PropTypes.node,
-  labelProps: PropTypes.object,
-  id: PropTypes.string,
-  inputProps: PropTypes.object,
-  formControlProps: PropTypes.object,
-  error: PropTypes.bool,
-  success: PropTypes.bool
-};
+// CustomInput.propTypes = {
+//   labelText: PropTypes.node,
+//   labelProps: PropTypes.object,
+//   id: PropTypes.string,
+//   inputProps: PropTypes.object,
+//   formControlProps: PropTypes.object,
+//   error: PropTypes.bool,
+//   success: PropTypes.bool
+// };

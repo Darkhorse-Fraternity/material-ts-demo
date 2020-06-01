@@ -1,4 +1,5 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState, useCallback, BaseSyntheticEvent } from 'react';
+import * as yup from 'yup';
 // @material-ui/core components
 import { useForm, Controller } from 'react-hook-form';
 import { makeStyles } from '@material-ui/core/styles';
@@ -31,23 +32,64 @@ const anyStyles = styles as any;
 
 const useStyles = makeStyles(anyStyles);
 
+
+
+// const reg = /^1([345789])\d{9}$/;
+const validationSchema = yup.object().shape({
+  username: yup
+    .string()
+    .max(50)
+    .trim()
+    .required()
+    // .matches(reg, '手机号码不正确。')
+    .label('账号'),
+  password: yup
+    .string()
+    .max(50)
+    .trim()
+    .required()
+    .label('密码'),
+});
+
+export type LoginType = {
+  username: string;
+  password: string;
+};
+
+
 interface LoginPageType {}
 
 export default function LoginPage(props: LoginPageType) {
   const [cardAnimaton, setCardAnimation] = React.useState('cardHidden');
-  const { control, handleSubmit } = useForm();
-  setTimeout(()=> {
+  const { control, handleSubmit, errors } = useForm<LoginType>({
+    validationSchema,
+    mode: 'onSubmit',
+    // defaultValues: {password: '11111'},
+  });
+
+  
+
+  setTimeout(() => {
     setCardAnimation('');
   }, 700);
   const classes = useStyles();
   const { ...rest } = props;
 
   const { dispatch } = useContext(DataContext);
+  const [signData, setSignData] = useState<LoginType>();
 
   const { data, revalidate, mutate } = useApiLogin(
-    { username: 'admin', password: 'a123456' },
+    { username:signData?.username || '', password:signData?.password ||'' },
     { autoTrigger: false }
   );
+
+  const onSubmit = (signIndata: LoginType, event?:BaseSyntheticEvent) => {
+    event && event.preventDefault();
+    setSignData(signIndata);
+    // mutate();
+  };
+  const memoHanleSubmit = useCallback(handleSubmit(onSubmit), []);
+
 
   useEffect(() => {
     if (data) {
@@ -58,12 +100,19 @@ export default function LoginPage(props: LoginPageType) {
     };
   }, [data, dispatch, mutate]);
 
+
+  useEffect(()=>{
+    if(signData){
+      revalidate();
+    } 
+  }, [signData, revalidate]);
+
   return (
     <div>
       <Header
         absolute
         color="transparent"
-        brand="Material Kit React"
+        brand="Material TS Demo"
         rightLinks={<HeaderLinks />}
         {...rest}
       />
@@ -116,10 +165,11 @@ export default function LoginPage(props: LoginPageType) {
                   <CardBody>
                     <Controller
                       as={CustomInput}
+                      error={!!errors.username}
                       formControlProps={{
                         fullWidth: true,
                       }}
-                      name="account"
+                      name="username"
                       labelText="账号"
                       control={control}
                       inputProps={{
@@ -162,14 +212,18 @@ export default function LoginPage(props: LoginPageType) {
                         ),
                       }}
                     /> */}
-                    <CustomInput
-                      labelText="密码"
-                      id="pass"
+
+                    <Controller
+                      as={CustomInput}
                       formControlProps={{
                         fullWidth: true,
                       }}
+                      error={!!errors.password}
+                      name="password"
+                      labelText="密码"
+                      control={control}
                       inputProps={{
-                        type: 'password',
+                        type: 'text',
                         endAdornment: (
                           <InputAdornment position="end">
                             <Icon className={classes.inputIconsColor}>
@@ -186,12 +240,9 @@ export default function LoginPage(props: LoginPageType) {
                       simple
                       color="primary"
                       size="lg"
-                      onClick={(e: { preventDefault: () => void }) => {
-                        e.preventDefault();
-                        revalidate();
-                      }}
+                      onClick={memoHanleSubmit}
                     >
-                      Get started
+                      点击登录
                     </Button>
                   </CardFooter>
                 </form>
