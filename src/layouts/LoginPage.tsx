@@ -22,17 +22,18 @@ import CardFooter from 'components/Card2/CardFooter';
 import CustomInput from 'components/CustomInput/CustomInput';
 import { DataContext } from 'components/DataContext';
 import { useApiLogin } from 'api';
-
+import {} from 'config/yue';
 import styles from 'assets/jss/material-kit-react/views/loginPage';
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 import image from 'assets/img/bg7.jpg';
+import ErrorLable from 'components/CustomInput/ErrorLable';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const anyStyles = styles as any;
 
 const useStyles = makeStyles(anyStyles);
 
-
+// const ErrorLableCenter = ErrorLable.
 
 // const reg = /^1([345789])\d{9}$/;
 const validationSchema = yup.object().shape({
@@ -78,9 +79,9 @@ export default function LoginPage(props: LoginPageType) {
   const { dispatch } = useContext(DataContext);
   const [signData, setSignData] = useState<LoginType>();
 
-  const { data, revalidate, mutate } = useApiLogin(
+  const { data, revalidate, mutate, error, isValidating } = useApiLogin(
     { username:signData?.username || '', password:signData?.password ||'' },
-    { autoTrigger: false }
+    { autoTrigger: false, shouldRetryOnError:false }
   );
 
   const onSubmit = (signIndata: LoginType, event?:BaseSyntheticEvent) => {
@@ -162,6 +163,7 @@ export default function LoginPage(props: LoginPageType) {
                     </div>
                   </CardHeader>
                   <p className={classes.divider}>Or Be Classical</p>
+                  <ErrorLable error={error?.response?.data.error} style={{ textAlign:'center' }} />
                   <CardBody>
                     <Controller
                       as={CustomInput}
@@ -182,6 +184,8 @@ export default function LoginPage(props: LoginPageType) {
                       }}
                       //   defaultValue="?"
                     />
+                    <ErrorLable error={errors.username} />
+                    {/* <div> asdasdasdsd</div> */}
                     {/* <CustomInput
                       labelText="账号"
                       id="account"
@@ -234,12 +238,16 @@ export default function LoginPage(props: LoginPageType) {
                         autoComplete: 'off',
                       }}
                     />
+                    <ErrorLable error={errors.password} />
                   </CardBody>
                   <CardFooter className={classes.cardFooter}>
+              
                     <Button
                       simple
+                      loading={isValidating}
                       color="primary"
                       size="lg"
+                    //   startIcon={}
                       onClick={memoHanleSubmit}
                     >
                       点击登录

@@ -3,18 +3,33 @@ import classNames from 'classnames';
 // import PropTypes from 'prop-types';
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles';
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import Input from '@material-ui/core/Input';
+import FormControl, { FormControlTypeMap } from '@material-ui/core/FormControl';
+import InputLabel, { InputLabelProps } from '@material-ui/core/InputLabel';
+import Input, { InputProps } from '@material-ui/core/Input';
 // @material-ui/icons
 import Clear from '@material-ui/icons/Clear';
 import Check from '@material-ui/icons/Check';
 // core components
 import styles from 'assets/jss/material-dashboard-react/components/customInputStyle';
 
-const useStyles = makeStyles(styles);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const anyStyles = styles as any;
 
-export default function CustomInput(props) {
+const useStyles = makeStyles(anyStyles);
+
+
+interface CustomInputType {
+  formControlProps:FormControlTypeMap['props'] & {className?:string};
+  labelText?: string;
+  id?:string;
+  labelProps?:InputLabelProps;
+  error?:boolean;
+  success?:boolean;
+  inputProps?:InputProps;
+  value?:string;
+}
+
+export default function CustomInput(props:CustomInputType) {
   const classes = useStyles();
   const {
     formControlProps,
@@ -24,6 +39,7 @@ export default function CustomInput(props) {
     inputProps,
     error,
     success,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     value,
     ...rest
   } = props;
@@ -42,6 +58,11 @@ export default function CustomInput(props) {
   const marginTop = classNames({
     [classes.marginTop]: labelText === undefined
   });
+
+  const successCheck = success ? (
+    <Check className={`${classes.feedback  } ${  classes.labelRootSuccess}`} />
+  ) : null;
+
   return (
     <FormControl
       {...formControlProps}
@@ -68,9 +89,7 @@ export default function CustomInput(props) {
       />
       {error ? (
         <Clear className={`${classes.feedback  } ${  classes.labelRootError}`} />
-      ) : success ? (
-        <Check className={`${classes.feedback  } ${  classes.labelRootSuccess}`} />
-      ) : null}
+      ) : successCheck}
     </FormControl>
   );
 }

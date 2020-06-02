@@ -13,6 +13,8 @@ import {
 import Admin from 'layouts/Admin';
 import LoginPage from 'layouts/LoginPage';
 import LandingPage from 'layouts/LandingPage/LandingPage';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
 
 import * as serviceWorker from './serviceWorker';
 import 'assets/css/material-dashboard-react.css?v=1.8.0';

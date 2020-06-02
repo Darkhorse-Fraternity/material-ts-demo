@@ -14,7 +14,9 @@ interface Return<Data, Error>
 
 export interface Config<Data = unknown, Error = unknown>
   extends Omit<
-  ConfigInterface<AxiosResponse<Data>, AxiosError<Error>>,
+  // 感觉 ts 出了bug 似的
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any  
+  ConfigInterface<AxiosResponse<Data>, AxiosError<any>>,
   'initialData'
   > {
   initialData?: Data

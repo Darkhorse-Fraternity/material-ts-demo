@@ -5,6 +5,12 @@ import baseRequest from './request';
 import { leancloudHeaders } from './leancloud';
 import useApi, { Config } from './useApi';
 
+
+interface ErrorType {
+  code:number;
+  error:string;
+}
+
 export default function makeRequestHook<
   TRequestData,
   TRequestConfig extends RequestConfig,
@@ -29,7 +35,7 @@ export default function makeRequestHook<
 
     const { autoTrigger = true, ...restConfig } = config || {};
 
-    return useApi<InnerData, unknown>(
+    return useApi<InnerData, ErrorType>(
       {
         data: requestData,
         headers: leancloudHeaders,
