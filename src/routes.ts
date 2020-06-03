@@ -55,6 +55,22 @@ const dashboardRoutes = [
     component: Search,
     layout: '/admin',
   },
+  [
+    {
+      path: '/Search',
+      name: 'Search',
+      icon: Person,
+      component: Search,
+      layout: '/admin',
+    },
+    {
+      path: '/user',
+      name: 'User Profile',
+      icon: Person,
+      component: UserProfile,
+      layout: '/admin',
+    },
+  ],
   {
     path: '/table',
     name: 'Table List',

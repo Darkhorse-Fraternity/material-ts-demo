@@ -13,7 +13,6 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Icon from "@material-ui/core/Icon";
 // core components
 import AdminNavbarLinks from "components/Navbars/AdminNavbarLinks";
-import RTLNavbarLinks from "components/Navbars/RTLNavbarLinks";
 
 import styles from "assets/jss/material-dashboard-react/components/sidebarStyle";
 import { ModalProps } from "@material-ui/core";
@@ -41,15 +40,17 @@ interface RouteType {
     name:string
 }
 
+interface RoutesType {
+    routes: (RouteType |RouteType[])[];
+}
 
-interface SidebarType {
+interface SidebarType extends RoutesType{
     rtlActive: boolean;
     handleDrawerToggle: ModalProps['onClose'];
     bgColor: "purple"| "blue"|"green"|"orange"| "red";
     logo: string;
     image: string;
     logoText:string;
-    routes: (RouteType)[];
     open: boolean;
     color:string;
 }
@@ -111,20 +112,30 @@ const LinkItem = (props:LinkItemType)=>{
     );
 }
 
+
+const Links = (props:RoutesType &{classes:Record<string, string>,color:string})=>{
+    const {classes,routes,color} = props;
+    return (
+        <List className={classes.list}>
+          {routes.map((item, key) => {
+            if(!Array.isArray(item)){
+                return (<LinkItem item={item as RouteType} key={key} classes={classes} color={color} />)
+            }else {
+                // return <Links {...props} routes={item}/>
+                return <div key={key}/>
+            }
+        
+          })}
+        </List>
+      );
+}
+
 export default function Sidebar(props:SidebarType) {
   const classes = useStyles();
   // verifies if routeName is the one active (in browser input)
  
   const { color, logo, image, logoText, routes } = props;
 
-
-  const links = (
-    <List className={classes.list}>
-      {routes.map((prop, key) => {
-        return (<LinkItem item={prop} key={key} classes={classes} color={color} />)
-      })}
-    </List>
-  );
 
   const brand = (
     <div className={classes.logo}>
@@ -161,8 +172,8 @@ export default function Sidebar(props:SidebarType) {
         >
           {brand}
           <div className={classes.sidebarWrapper}>
-            {props.rtlActive ? <RTLNavbarLinks /> : <AdminNavbarLinks />}
-            {links}
+            <AdminNavbarLinks />
+            <Links routes={routes} classes={classes} color={color}/>
           </div>
           {image !== undefined ? (
             <div
@@ -184,7 +195,9 @@ export default function Sidebar(props:SidebarType) {
           }}
         >
           {brand}
-          <div className={classes.sidebarWrapper}>{links}</div>
+          <div className={classes.sidebarWrapper}> 
+            <Links routes={routes} classes={classes} color={color}/>
+          </div>
           {image !== undefined ? (
             <div
               className={classes.background}

@@ -8,9 +8,9 @@ import {
 const iconsStyle = {
   iframe: {
     width: '100%',
-    height: '500px',
+    height: '1200px',
     border: '0',
-    ...boxShadow
+    // ...boxShadow
   },
   iframeContainer: {
     margin: '0 -20px 0'

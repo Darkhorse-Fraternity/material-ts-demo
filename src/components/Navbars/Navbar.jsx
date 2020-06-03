@@ -13,7 +13,6 @@ import Menu from '@material-ui/icons/Menu';
 import Button from 'components/CustomButtons/Button';
 import styles from 'assets/jss/material-dashboard-react/components/headerStyle';
 import AdminNavbarLinks from './AdminNavbarLinks';
-import RTLNavbarLinks from './RTLNavbarLinks';
 
 
 const useStyles = makeStyles(styles);
@@ -23,9 +22,19 @@ export default function Header(props) {
   function makeBrand() {
     let name;
     props.routes.map(prop => {
-      if (window.location.href.indexOf(prop.layout + prop.path) !== -1) {
-        name = props.rtlActive ? prop.rtlName : prop.name;
-      }
+      if(!Array.isArray(prop)){
+        if (window.location.href.indexOf(prop.layout + prop.path) !== -1) {
+          name =  prop.name;
+        }
+      }else {
+        prop.map(item=>{
+          if (window.location.href.indexOf(item.layout + item.path) !== -1) {
+            name =  prop.name;
+          }
+        });
+
+      }   
+   
       return null;
     });
     return name;
@@ -44,7 +53,7 @@ export default function Header(props) {
           </Button>
         </div>
         <Hidden smDown implementation="css">
-          {props.rtlActive ? <RTLNavbarLinks /> : <AdminNavbarLinks />}
+          <AdminNavbarLinks />
         </Hidden>
         <Hidden mdUp implementation="css">
           <IconButton
@@ -60,9 +69,9 @@ export default function Header(props) {
   );
 }
 
-Header.propTypes = {
-  color: PropTypes.oneOf(['primary', 'info', 'success', 'warning', 'danger']),
-  rtlActive: PropTypes.bool,
-  handleDrawerToggle: PropTypes.func,
-  routes: PropTypes.arrayOf(PropTypes.object)
-};
+// Header.propTypes = {
+//   color: PropTypes.oneOf(['primary', 'info', 'success', 'warning', 'danger']),
+//   rtlActive: PropTypes.bool,
+//   handleDrawerToggle: PropTypes.func,
+//   routes: PropTypes.arrayOf(PropTypes.object)
+// };
