@@ -16,74 +16,120 @@ import AdminNavbarLinks from "components/Navbars/AdminNavbarLinks";
 import RTLNavbarLinks from "components/Navbars/RTLNavbarLinks";
 
 import styles from "assets/jss/material-dashboard-react/components/sidebarStyle";
+import { ModalProps } from "@material-ui/core";
 
-const useStyles = makeStyles(styles);
 
-export default function Sidebar(props) {
-  const classes = useStyles();
-  // verifies if routeName is the one active (in browser input)
-  function activeRoute(routeName) {
+
+const useStyles = makeStyles(styles as any);
+
+
+// Sidebar.propTypes = {
+//     rtlActive: PropTypes.bool,
+//     handleDrawerToggle: PropTypes.func,
+//     bgColor: PropTypes.oneOf(["purple", "blue", "green", "orange", "red"]),
+//     logo: PropTypes.string,
+//     image: PropTypes.string,
+//     logoText: PropTypes.string,
+//     routes: PropTypes.arrayOf(PropTypes.object),
+//     open: PropTypes.bool
+//   };
+ 
+interface RouteType {
+    path:string;
+    layout:string;
+    icon:string |  typeof Icon;
+    name:string
+}
+
+
+interface SidebarType {
+    rtlActive: boolean;
+    handleDrawerToggle: ModalProps['onClose'];
+    bgColor: "purple"| "blue"|"green"|"orange"| "red";
+    logo: string;
+    image: string;
+    logoText:string;
+    routes: (RouteType)[];
+    open: boolean;
+    color:string;
+}
+
+interface LinkItemType {
+    color:string;
+    item:RouteType;
+    classes:Record<string, string>;
+}
+
+function activeRoute(routeName:string) {
     return window.location.href.indexOf(routeName) > -1 ? true : false;
   }
+
+const LinkItem = (props:LinkItemType)=>{
+    const {item,color,classes} = props;
+    const {path,layout,icon,name} = item
+    let activePro = " ";
+    let listItemClasses;
+    if (path === "/upgrade-to-pro") {
+      activePro = classes.activePro + " ";
+      listItemClasses = classNames({
+        [" " + classes[color]]: true
+      });
+    } else {
+      listItemClasses = classNames({
+        [" " + classes[color]]: activeRoute(layout + path)
+      });
+    }
+    const whiteFontClasses = classNames({
+      [" " + classes.whiteFont]: activeRoute(layout + path)
+    });
+    return (
+      <NavLink
+        to={layout + path}
+        className={activePro + classes.item}
+        activeClassName="active"
+        key={layout + path}
+      >
+        <ListItem button className={classes.itemLink + listItemClasses}>
+          {typeof icon === "string" ? (
+            <Icon
+              className={classNames(classes.itemIcon, whiteFontClasses)}
+            >
+              {icon}
+            </Icon>
+          ) : (
+            <item.icon
+              className={classNames(classes.itemIcon, whiteFontClasses)}
+            />
+          )}
+          <ListItemText
+            primary={name}
+            className={classNames(classes.itemText, whiteFontClasses)}
+            disableTypography={true}
+          />
+        </ListItem>
+      </NavLink>
+    );
+}
+
+export default function Sidebar(props:SidebarType) {
+  const classes = useStyles();
+  // verifies if routeName is the one active (in browser input)
+ 
   const { color, logo, image, logoText, routes } = props;
-  var links = (
+
+
+  const links = (
     <List className={classes.list}>
       {routes.map((prop, key) => {
-        var activePro = " ";
-        var listItemClasses;
-        if (prop.path === "/upgrade-to-pro") {
-          activePro = classes.activePro + " ";
-          listItemClasses = classNames({
-            [" " + classes[color]]: true
-          });
-        } else {
-          listItemClasses = classNames({
-            [" " + classes[color]]: activeRoute(prop.layout + prop.path)
-          });
-        }
-        const whiteFontClasses = classNames({
-          [" " + classes.whiteFont]: activeRoute(prop.layout + prop.path)
-        });
-        return (
-          <NavLink
-            to={prop.layout + prop.path}
-            className={activePro + classes.item}
-            activeClassName="active"
-            key={key}
-          >
-            <ListItem button className={classes.itemLink + listItemClasses}>
-              {typeof prop.icon === "string" ? (
-                <Icon
-                  className={classNames(classes.itemIcon, whiteFontClasses, {
-                    [classes.itemIconRTL]: props.rtlActive
-                  })}
-                >
-                  {prop.icon}
-                </Icon>
-              ) : (
-                <prop.icon
-                  className={classNames(classes.itemIcon, whiteFontClasses, {
-                    [classes.itemIconRTL]: props.rtlActive
-                  })}
-                />
-              )}
-              <ListItemText
-                primary={props.rtlActive ? prop.rtlName : prop.name}
-                className={classNames(classes.itemText, whiteFontClasses, {
-                  [classes.itemTextRTL]: props.rtlActive
-                })}
-                disableTypography={true}
-              />
-            </ListItem>
-          </NavLink>
-        );
+        return (<LinkItem item={prop} key={key} classes={classes} color={color} />)
       })}
     </List>
   );
-  var brand = (
+
+  const brand = (
     <div className={classes.logo}>
       <a
-        href="https://www.creative-tim.com?ref=mdr-sidebar"
+        href="./"
         className={classNames(classes.logoLink, {
           [classes.logoLinkRTL]: props.rtlActive
         })}
@@ -151,13 +197,3 @@ export default function Sidebar(props) {
   );
 }
 
-Sidebar.propTypes = {
-  rtlActive: PropTypes.bool,
-  handleDrawerToggle: PropTypes.func,
-  bgColor: PropTypes.oneOf(["purple", "blue", "green", "orange", "red"]),
-  logo: PropTypes.string,
-  image: PropTypes.string,
-  logoText: PropTypes.string,
-  routes: PropTypes.arrayOf(PropTypes.object),
-  open: PropTypes.bool
-};
