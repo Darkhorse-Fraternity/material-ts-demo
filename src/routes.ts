@@ -30,6 +30,7 @@ import Typography from 'views/Typography/Typography';
 import Icons from 'views/Icons/Icons';
 import NotificationsPage from 'views/Notifications/Notifications';
 import UpgradeToPro from 'views/UpgradeToPro/UpgradeToPro';
+import Search from 'views/Search';
 // core components/views for RTL layout
 
 const dashboardRoutes = [
@@ -45,6 +46,13 @@ const dashboardRoutes = [
     name: 'User Profile',
     icon: Person,
     component: UserProfile,
+    layout: '/admin',
+  },
+  {
+    path: '/Search',
+    name: 'Search',
+    icon: Person,
+    component: Search,
     layout: '/admin',
   },
   {

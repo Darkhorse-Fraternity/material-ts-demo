@@ -16,8 +16,8 @@ const stylesAny = styles as any;
 const useStyles = makeStyles(stylesAny);
 
 
-interface RegularButtonType  extends  HTMLAttributes<HTMLButtonElement>{
-  color:  'primary'|
+interface RegularButtonTypeIn  extends  HTMLAttributes<HTMLButtonElement>{
+  color?:  'primary'|
   'info'|
   'success'|
   'warning'|
@@ -40,11 +40,12 @@ interface RegularButtonType  extends  HTMLAttributes<HTMLButtonElement>{
 type ButtonTypeProps =  ButtonTypeMap<{}>['props'];
 type ButtonTypeMap2 = Omit<ButtonTypeProps, 'color'|'size'>;
 
+export type RegularButtonType =  RegularButtonTypeIn & ButtonTypeMap2;
 
-const RegularButton:FC<RegularButtonType & ButtonTypeMap2> = props=> {
+const RegularButton:FC<RegularButtonType> = props=> {
   const classes = useStyles();
   const {
-    color,
+    color = 'primary',
     round,
     children,
     disabled,
