@@ -8,7 +8,7 @@ import Grow from '@material-ui/core/Grow';
 import Paper from '@material-ui/core/Paper';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Hidden from '@material-ui/core/Hidden';
-import Poppers from '@material-ui/core/Popper';
+import Poppers  from '@material-ui/core/Popper';
 import Divider from '@material-ui/core/Divider';
 // @material-ui/icons
 import Person from '@material-ui/icons/Person';
@@ -21,18 +21,19 @@ import Button from 'components/CustomButtons/Button';
 import { DataContext } from 'components/DataContext';
 import styles from 'assets/jss/material-dashboard-react/components/headerLinksStyle';
 
-const useStyles = makeStyles(styles);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const useStyles = makeStyles(styles as any);
 
 export default function AdminNavbarLinks() {
   const classes = useStyles();
-  const [openNotification, setOpenNotification] = React.useState(null);
-  const [openProfile, setOpenProfile] = React.useState(null);
+  const [openNotification, setOpenNotification] = React.useState<EventTarget | null >(null);
+  const [openProfile, setOpenProfile] = React.useState<EventTarget | null >(null);
 
   const { dispatch } = useContext(DataContext); 
 
 
-  const handleClickNotification = event => {
-    if (openNotification && openNotification.contains(event.target)) {
+  const handleClickNotification = (event:React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    if (openNotification ) {
       setOpenNotification(null);
     } else {
       setOpenNotification(event.currentTarget);
@@ -41,8 +42,8 @@ export default function AdminNavbarLinks() {
   const handleCloseNotification = () => {
     setOpenNotification(null);
   };
-  const handleClickProfile = event => {
-    if (openProfile && openProfile.contains(event.target)) {
+  const handleClickProfile = (event:React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    if (openProfile) {
       setOpenProfile(null);
     } else {
       setOpenProfile(event.currentTarget);
@@ -86,7 +87,7 @@ export default function AdminNavbarLinks() {
           color={window.innerWidth > 959 ? 'transparent' : 'white'}
           justIcon={window.innerWidth > 959}
           simple={!(window.innerWidth > 959)}
-          aria-owns={openNotification ? 'notification-menu-list-grow' : null}
+          aria-owns={openNotification ? 'notification-menu-list-grow' : undefined}
           aria-haspopup="true"
           onClick={handleClickNotification}
           className={classes.buttonLink}
@@ -101,7 +102,8 @@ export default function AdminNavbarLinks() {
         </Button>
         <Poppers
           open={Boolean(openNotification)}
-          anchorEl={openNotification}
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          anchorEl={openNotification as any}
           transition
           disablePortal
           className={
@@ -113,7 +115,7 @@ export default function AdminNavbarLinks() {
           {({ TransitionProps, placement }) => (
             <Grow
               {...TransitionProps}
-              id="notification-menu-list-grow"
+            //   id="notification-menu-list-grow"
               style={{
                 transformOrigin:
                   placement === 'bottom' ? 'center top' : 'center bottom'
@@ -164,7 +166,7 @@ export default function AdminNavbarLinks() {
           color={window.innerWidth > 959 ? 'transparent' : 'white'}
           justIcon={window.innerWidth > 959}
           simple={!(window.innerWidth > 959)}
-          aria-owns={openProfile ? 'profile-menu-list-grow' : null}
+          aria-owns={openProfile ? 'profile-menu-list-grow' : undefined}
           aria-haspopup="true"
           onClick={handleClickProfile}
           className={classes.buttonLink}
@@ -176,7 +178,8 @@ export default function AdminNavbarLinks() {
         </Button>
         <Poppers
           open={Boolean(openProfile)}
-          anchorEl={openProfile}
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          anchorEl={openProfile as any}
           transition
           disablePortal
           className={
@@ -188,7 +191,7 @@ export default function AdminNavbarLinks() {
           {({ TransitionProps, placement }) => (
             <Grow
               {...TransitionProps}
-              id="profile-menu-list-grow"
+            //   id="profile-menu-list-grow"
               style={{
                 transformOrigin:
                   placement === 'bottom' ? 'center top' : 'center bottom'
