@@ -27,7 +27,7 @@ import CardHeader from 'components/Card2/CardHeader';
 import CardFooter from 'components/Card2/CardFooter';
 import CustomInput from 'components/CustomInput/CustomInput';
 import { DataContext } from 'components/DataContext';
-import { useApiLogin } from 'api';
+import { useApiPostLogin } from 'api';
 import {} from 'config/yue';
 import styles from 'assets/jss/material-kit-react/views/loginPage';
 import image from 'assets/img/bg7.jpg';
@@ -76,7 +76,7 @@ export default function LoginPage(props: LoginPageType) {
   const { dispatch } = useContext(DataContext);
   const [signData, setSignData] = useState<LoginType>();
 
-  const { data, revalidate, mutate, error, isValidating } = useApiLogin(
+  const { data, revalidate, mutate, error, isValidating } = useApiPostLogin(
     { username: signData?.username || '', password: signData?.password || '' },
     { autoTrigger: false, shouldRetryOnError: false }
   );

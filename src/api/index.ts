@@ -62,7 +62,7 @@ const dataKey_0_0_0_0 = undefined as any
  * @请求头 `POST /1.1/login`
  * @更新时间 `2020-05-29 22:45:18`
  */
-export interface ApiLoginRequest {
+export interface ApiPostLoginRequest {
   username: string
   password: string
 }
@@ -74,7 +74,7 @@ export interface ApiLoginRequest {
  * @请求头 `POST /1.1/login`
  * @更新时间 `2020-05-29 22:45:18`
  */
-export interface ApiLoginResponse {
+export interface ApiPostLoginResponse {
   sessionToken: string
   updatedAt: string
   objectId: string
@@ -91,7 +91,7 @@ export interface ApiLoginResponse {
  * @请求头 `POST /1.1/login`
  * @更新时间 `2020-05-29 22:45:18`
  */
-type ApiLoginRequestConfig = Readonly<
+type ApiPostLoginRequestConfig = Readonly<
   RequestConfig<
     'http://121.89.170.197:3000/mock/17',
     'https://jrfwyncx.lc-cn-n1-shared.com',
@@ -110,7 +110,7 @@ type ApiLoginRequestConfig = Readonly<
  * @请求头 `POST /1.1/login`
  * @更新时间 `2020-05-29 22:45:18`
  */
-const apiLoginRequestConfig: ApiLoginRequestConfig = {
+const apiPostLoginRequestConfig: ApiPostLoginRequestConfig = {
   mockUrl: mockUrl_0_0_0_0,
   devUrl: devUrl_0_0_0_0,
   prodUrl: prodUrl_0_0_0_0,
@@ -130,7 +130,9 @@ const apiLoginRequestConfig: ApiLoginRequestConfig = {
  * @请求头 `POST /1.1/login`
  * @更新时间 `2020-05-29 22:45:18`
  */
-export const apiLogin = makeRequest<ApiLoginRequest, ApiLoginResponse, ApiLoginRequestConfig>(apiLoginRequestConfig)
+export const apiPostLogin = makeRequest<ApiPostLoginRequest, ApiPostLoginResponse, ApiPostLoginRequestConfig>(
+  apiPostLoginRequestConfig,
+)
 
 /**
  * 接口 [登录↗](http://121.89.170.197:3000/project/17/interface/api/8) 的 **React Hook**
@@ -139,9 +141,11 @@ export const apiLogin = makeRequest<ApiLoginRequest, ApiLoginResponse, ApiLoginR
  * @请求头 `POST /1.1/login`
  * @更新时间 `2020-05-29 22:45:18`
  */
-export const useApiLogin = makeRequestHook<ApiLoginRequest, ApiLoginRequestConfig, ReturnType<typeof apiLogin>>(
-  apiLogin,
-)
+export const useApiPostLogin = makeRequestHook<
+  ApiPostLoginRequest,
+  ApiPostLoginRequestConfig,
+  ReturnType<typeof apiPostLogin>
+>(apiPostLogin)
 
 /**
  * 接口 [订单↗](http://121.89.170.197:3000/project/17/interface/api/28) 的 **请求类型**
@@ -150,7 +154,7 @@ export const useApiLogin = makeRequestHook<ApiLoginRequest, ApiLoginRequestConfi
  * @请求头 `POST /1.1/classes/Order`
  * @更新时间 `2020-06-05 15:35:52`
  */
-export interface ApiOrderRequest {
+export interface ApiPostOrderRequest {
   startTime: {
     __type: string
     iso: string
@@ -170,7 +174,7 @@ export interface ApiOrderRequest {
  * @请求头 `POST /1.1/classes/Order`
  * @更新时间 `2020-06-05 15:35:52`
  */
-export interface ApiOrderResponse {
+export interface ApiPostOrderResponse {
   objectId: string
   createdAt: string
 }
@@ -182,7 +186,7 @@ export interface ApiOrderResponse {
  * @请求头 `POST /1.1/classes/Order`
  * @更新时间 `2020-06-05 15:35:52`
  */
-type ApiOrderRequestConfig = Readonly<
+type ApiPostOrderRequestConfig = Readonly<
   RequestConfig<
     'http://121.89.170.197:3000/mock/17',
     'https://jrfwyncx.lc-cn-n1-shared.com',
@@ -201,7 +205,7 @@ type ApiOrderRequestConfig = Readonly<
  * @请求头 `POST /1.1/classes/Order`
  * @更新时间 `2020-06-05 15:35:52`
  */
-const apiOrderRequestConfig: ApiOrderRequestConfig = {
+const apiPostOrderRequestConfig: ApiPostOrderRequestConfig = {
   mockUrl: mockUrl_0_0_0_0,
   devUrl: devUrl_0_0_0_0,
   prodUrl: prodUrl_0_0_0_0,
@@ -221,7 +225,9 @@ const apiOrderRequestConfig: ApiOrderRequestConfig = {
  * @请求头 `POST /1.1/classes/Order`
  * @更新时间 `2020-06-05 15:35:52`
  */
-export const apiOrder = makeRequest<ApiOrderRequest, ApiOrderResponse, ApiOrderRequestConfig>(apiOrderRequestConfig)
+export const apiPostOrder = makeRequest<ApiPostOrderRequest, ApiPostOrderResponse, ApiPostOrderRequestConfig>(
+  apiPostOrderRequestConfig,
+)
 
 /**
  * 接口 [订单↗](http://121.89.170.197:3000/project/17/interface/api/28) 的 **React Hook**
@@ -230,9 +236,11 @@ export const apiOrder = makeRequest<ApiOrderRequest, ApiOrderResponse, ApiOrderR
  * @请求头 `POST /1.1/classes/Order`
  * @更新时间 `2020-06-05 15:35:52`
  */
-export const useApiOrder = makeRequestHook<ApiOrderRequest, ApiOrderRequestConfig, ReturnType<typeof apiOrder>>(
-  apiOrder,
-)
+export const useApiPostOrder = makeRequestHook<
+  ApiPostOrderRequest,
+  ApiPostOrderRequestConfig,
+  ReturnType<typeof apiPostOrder>
+>(apiPostOrder)
 
 /**
  * 接口 [订单查询↗](http://121.89.170.197:3000/project/17/interface/api/30) 的 **请求类型**
@@ -241,7 +249,7 @@ export const useApiOrder = makeRequestHook<ApiOrderRequest, ApiOrderRequestConfi
  * @请求头 `GET /1.1/classes/Order`
  * @更新时间 `2020-06-05 15:44:37`
  */
-export interface ApiOrderRequest {
+export interface ApiGetOrderRequest {
   limit?: string
   skip?: string
   where?: string
@@ -256,7 +264,7 @@ export interface ApiOrderRequest {
  * @请求头 `GET /1.1/classes/Order`
  * @更新时间 `2020-06-05 15:44:37`
  */
-export interface ApiOrderResponse {
+export interface ApiGetOrderResponse {
   results?: {
     payType: string
     statu: number
@@ -281,7 +289,7 @@ export interface ApiOrderResponse {
  * @请求头 `GET /1.1/classes/Order`
  * @更新时间 `2020-06-05 15:44:37`
  */
-type ApiOrderRequestConfig = Readonly<
+type ApiGetOrderRequestConfig = Readonly<
   RequestConfig<
     'http://121.89.170.197:3000/mock/17',
     'https://jrfwyncx.lc-cn-n1-shared.com',
@@ -300,7 +308,7 @@ type ApiOrderRequestConfig = Readonly<
  * @请求头 `GET /1.1/classes/Order`
  * @更新时间 `2020-06-05 15:44:37`
  */
-const apiOrderRequestConfig: ApiOrderRequestConfig = {
+const apiGetOrderRequestConfig: ApiGetOrderRequestConfig = {
   mockUrl: mockUrl_0_0_0_0,
   devUrl: devUrl_0_0_0_0,
   prodUrl: prodUrl_0_0_0_0,
@@ -320,7 +328,9 @@ const apiOrderRequestConfig: ApiOrderRequestConfig = {
  * @请求头 `GET /1.1/classes/Order`
  * @更新时间 `2020-06-05 15:44:37`
  */
-export const apiOrder = makeRequest<ApiOrderRequest, ApiOrderResponse, ApiOrderRequestConfig>(apiOrderRequestConfig)
+export const apiGetOrder = makeRequest<ApiGetOrderRequest, ApiGetOrderResponse, ApiGetOrderRequestConfig>(
+  apiGetOrderRequestConfig,
+)
 
 /**
  * 接口 [订单查询↗](http://121.89.170.197:3000/project/17/interface/api/30) 的 **React Hook**
@@ -329,8 +339,10 @@ export const apiOrder = makeRequest<ApiOrderRequest, ApiOrderResponse, ApiOrderR
  * @请求头 `GET /1.1/classes/Order`
  * @更新时间 `2020-06-05 15:44:37`
  */
-export const useApiOrder = makeRequestHook<ApiOrderRequest, ApiOrderRequestConfig, ReturnType<typeof apiOrder>>(
-  apiOrder,
-)
+export const useApiGetOrder = makeRequestHook<
+  ApiGetOrderRequest,
+  ApiGetOrderRequestConfig,
+  ReturnType<typeof apiGetOrder>
+>(apiGetOrder)
 
 /* prettier-ignore-end */

@@ -35,9 +35,10 @@ const getRequestFunctionName = (
   interfaceInfo: ExtendedInterface,
   changeCase: ChangeCase
 ) => {
-  const { name, dir } = interfaceInfo.parsedPath;
+  const {method, parsedPath} =   interfaceInfo
+  const { name, dir } = parsedPath;
   const dirString = dir.replace(/\//g, ' ');
-  return changeCase.camelCase(`api_${name}`);
+  return changeCase.camelCase(`api_${method}_${name}`);
 };
 
 const config: Config = [
