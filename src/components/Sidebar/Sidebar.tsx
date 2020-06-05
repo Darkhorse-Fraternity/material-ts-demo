@@ -209,12 +209,12 @@ const LinkItem = (props:LinkItemType)=>{
         <ExpandMore className={classNames(classes.itemIcon, whiteFontClasses)} />}
       </ListItem>
       <Collapse in={open} timeout="auto" unmountOnExit>
-        {routes?.map(item=>(
+        {routes?.map((item)=>(
           <NavLink
             to={item.layout! +item.path!}
             className={activePro + classes.item}
             activeClassName="active"
-            key={layout! + path!}
+            key={item.layout! + item.path!}
           >
             <ListItem button className={classes2.nested}>
 

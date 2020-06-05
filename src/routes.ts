@@ -18,6 +18,7 @@
 // @material-ui/icons
 import Dashboard from '@material-ui/icons/Dashboard';
 import Person from '@material-ui/icons/Person';
+import SearchIcon from '@material-ui/icons/Search';
 import LibraryBooks from '@material-ui/icons/LibraryBooks';
 import BubbleChart from '@material-ui/icons/BubbleChart';
 import Notifications from '@material-ui/icons/Notifications';
@@ -31,6 +32,7 @@ import Icons from 'views/Icons/Icons';
 import NotificationsPage from 'views/Notifications/Notifications';
 import UpgradeToPro from 'views/UpgradeToPro/UpgradeToPro';
 import Search from 'views/Search';
+import Add from 'views/Add';
 // core components/views for RTL layout
 
 const dashboardRoutes = [
@@ -50,7 +52,7 @@ const dashboardRoutes = [
   },
   {
     name: 'SearchRoutes',
-    icon: Person,
+    icon: SearchIcon,
     routes:[{
       path: '/Search',
       name: 'Search',
@@ -58,10 +60,10 @@ const dashboardRoutes = [
       component: Search,
       layout: '/admin',
     }, {
-      path: '/Search2',
-      name: 'Search2',
+      path: '/Add',
+      name: 'Add',
       icon: Person,
-      component: Search,
+      component: Add,
       layout: '/admin',
     }]
   },

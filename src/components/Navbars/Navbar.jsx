@@ -30,7 +30,7 @@ export default function Header(props) {
         // eslint-disable-next-line array-callback-return
         prop.routes.map(item=>{
           if (window.location.href.indexOf(item.layout + item.path) !== -1) {
-            name =  prop.name;
+            name =  item.name;
           }
         });
 

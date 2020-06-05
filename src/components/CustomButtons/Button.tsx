@@ -72,13 +72,19 @@ const RegularButton:FC<RegularButtonType> = props=> {
     [className]: className,
   });
 
- 
 
-  return (
-    <Button {...rest} classes={muiClasses} className={btnClasses} disabled={disabled || loading}>
-      {loading? <CircularProgress size={20}  />:children}
-    </Button>
-  );
+  
+  if(children){
+    return (
+      <Button {...rest} classes={muiClasses} className={btnClasses} disabled={disabled || loading}>
+        {loading? <CircularProgress size={20}  />:children}
+      </Button>
+    );
+  }
+  return null;
+  
+
+  
 };
 
 
