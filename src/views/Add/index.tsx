@@ -76,7 +76,8 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-export default function Add() {
+export default function Add(props:unknown) {
+    
   const classes = useStyles();
   const [value, setValue] = React.useState('female');
 
@@ -107,12 +108,12 @@ export default function Add() {
         <GridItem xs={12} sm={12} md={12}>
           <Card>
             <CardHeader color="primary">
-              <h4 className={classes.cardTitleWhite}>Edit Profile</h4>
-              <p className={classes.cardCategoryWhite}>Complete your profile</p>
+              <h4 className={classes.cardTitleWhite}>订单</h4>
+              <p className={classes.cardCategoryWhite}>订单提交</p>
             </CardHeader>
             <CardBody>
               <GridItem xs={12} sm={12} md={12}>
-                分类:{'   '}
+                支付方式:{'   '}
                 {categorys.map(({ value:value1, lable })=>(
                   <RadioButton
                     value={value1}
@@ -125,7 +126,7 @@ export default function Add() {
                 ))}
               </GridItem>
               <GridItem xs={12} sm={12} md={12}>
-                观众:{'   '}
+                支付状态:{'   '}
                 <FormControl className={classes.formControl}>
                   {/* <InputLabel id="demo-simple-select-label">年龄</InputLabel> */}
                   <Select
