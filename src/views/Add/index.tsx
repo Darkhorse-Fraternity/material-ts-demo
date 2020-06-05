@@ -8,11 +8,6 @@ import GridItem from 'components/Grid/GridItem';
 import GridContainer from 'components/Grid/GridContainer';
 import CustomInput from 'components/CustomInput/CustomInput';
 import Button, { RegularButtonType } from 'components/CustomButtons/Button';
-import Card from 'components/Card/Card';
-// import CardHeader from 'components/Card/CardHeader';
-import CardBody from 'components/Card/CardBody';
-// import CardFooter from 'components/Card/CardFooter';
-import Table from 'components/Table/Table';
 import Select from '@material-ui/core/Select';
 import {
   FormControl,
@@ -21,6 +16,10 @@ import {
   Checkbox,
   FormControlLabel,
 } from '@material-ui/core';
+import CardBody from 'components/Card/CardBody';
+import CardHeader from 'components/Card/CardHeader';
+import Card from 'components/Card/Card';
+import CardFooter from 'components/Card/CardFooter';
 
 
 const categorys = [
@@ -106,113 +105,96 @@ export default function Add() {
     <div>
       <GridContainer>
         <GridItem xs={12} sm={12} md={12}>
-          分类:{'   '}
-          {categorys.map(({ value:value1, lable })=>(
-            <RadioButton
-              value={value1}
-              key={value1}
-              checked={value === value1}
-              onClick={handleChange}
-            >
-              {lable}
-            </RadioButton>
-          ))}
-        </GridItem>
-        <GridItem xs={12} sm={12} md={12}>
-          观众:{'   '}
-          <FormControl className={classes.formControl}>
-            {/* <InputLabel id="demo-simple-select-label">年龄</InputLabel> */}
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={age}
-              onChange={handleChangeAge}
-            >
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
-            </Select>
-          </FormControl>
-        </GridItem>
-        <GridItem xs={12} sm={12} md={12}>
-          多选:{'   '}
-          <FormGroup row>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={state.checkedA}
-                  onChange={handleChangeState}
-                  name="checkedA"
-                />
-                      }
-              label="Secondary"
-            />
-            <FormControlLabel
-              control={<Checkbox name="checkedC" />}
-              label="Uncontrolled"
-            />
-          </FormGroup>
-        </GridItem>
-        <GridItem xs={12} sm={12} md={5}>
-          <CustomInput
-            labelText="Company (disabled)"
-            id="company-disabled"
-            formControlProps={{
-              fullWidth: true,
-            }}
-            inputProps={{
-              disabled: true,
-            }}
-          />
-        </GridItem>
-        <GridItem xs={12} sm={12} md={3}>
-          <CustomInput
-            labelText="Username"
-            id="username"
-            formControlProps={{
-              fullWidth: true,
-            }}
-          />
-        </GridItem>
-        <GridItem xs={12} sm={12} md={4}>
-          <CustomInput
-            labelText="Email address"
-            id="email-address"
-            formControlProps={{
-              fullWidth: true,
-            }}
-          />
-        </GridItem>
-      </GridContainer>
-      <GridContainer>
-    
-        <GridItem xs={12} sm={12} md={12}>
           <Card>
-            {/* <CardHeader color="primary">
-              <h4 className={classes.cardTitleWhite}>Simple Table</h4>
-              <p className={classes.cardCategoryWhite}>
-                Here is a subtitle for this table
-              </p>
-            </CardHeader> */}
+            <CardHeader color="primary">
+              <h4 className={classes.cardTitleWhite}>Edit Profile</h4>
+              <p className={classes.cardCategoryWhite}>Complete your profile</p>
+            </CardHeader>
             <CardBody>
-              <Table
-                tableHeaderColor="primary"
-                tableHead={['Name', 'Country', 'City', 'Salary']}
-                tableData={[
-                  ['Dakota Rice', 'Niger', 'Oud-Turnhout', '$36,738'],
-                  ['Minerva Hooper', 'Curaçao', 'Sinaai-Waas', '$23,789'],
-                  ['Sage Rodriguez', 'Netherlands', 'Baileux', '$56,142'],
-                  ['Philip Chaney', 'Korea, South', 'Overland Park', '$38,735'],
-                  [
-                    'Doris Greene',
-                    'Malawi',
-                    'Feldkirchen in Kärnten',
-                    '$63,542',
-                  ],
-                  ['Mason Porter', 'Chile', 'Gloucester', '$78,615'],
-                ]}
-              />
+              <GridItem xs={12} sm={12} md={12}>
+                分类:{'   '}
+                {categorys.map(({ value:value1, lable })=>(
+                  <RadioButton
+                    value={value1}
+                    key={value1}
+                    checked={value === value1}
+                    onClick={handleChange}
+                  >
+                    {lable}
+                  </RadioButton>
+                ))}
+              </GridItem>
+              <GridItem xs={12} sm={12} md={12}>
+                观众:{'   '}
+                <FormControl className={classes.formControl}>
+                  {/* <InputLabel id="demo-simple-select-label">年龄</InputLabel> */}
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={age}
+                    onChange={handleChangeAge}
+                  >
+                    <MenuItem value={10}>Ten</MenuItem>
+                    <MenuItem value={20}>Twenty</MenuItem>
+                    <MenuItem value={30}>Thirty</MenuItem>
+                  </Select>
+                </FormControl>
+              </GridItem>
+              <GridItem xs={12} sm={12} md={12}>
+                多选:{'   '}
+                <FormGroup row>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={state.checkedA}
+                        onChange={handleChangeState}
+                        name="checkedA"
+                      />
+                      }
+                    label="Secondary"
+                  />
+                  <FormControlLabel
+                    control={<Checkbox name="checkedC" />}
+                    label="Uncontrolled"
+                  />
+                </FormGroup>
+              </GridItem>
+              <GridContainer>
+                <GridItem xs={12} sm={12} md={5}>
+                  <CustomInput
+                    labelText="Company (disabled)"
+                    id="company-disabled"
+                    formControlProps={{
+                      fullWidth: true,
+                    }}
+                    inputProps={{
+                      disabled: true,
+                    }}
+                  />
+                </GridItem>
+                <GridItem xs={12} sm={12} md={3}>
+                  <CustomInput
+                    labelText="Username"
+                    id="username"
+                    formControlProps={{
+                      fullWidth: true,
+                    }}
+                  />
+                </GridItem>
+                <GridItem xs={12} sm={12} md={4}>
+                  <CustomInput
+                    labelText="Email address"
+                    id="email-address"
+                    formControlProps={{
+                      fullWidth: true,
+                    }}
+                  />
+                </GridItem>
+              </GridContainer> 
             </CardBody>
+            <CardFooter>
+              <Button color="primary">提交</Button>
+            </CardFooter>
           </Card>
         </GridItem>
       </GridContainer>
