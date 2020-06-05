@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useState, useCallback, BaseSyntheticEvent } from 'react';
+import React, {
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+  BaseSyntheticEvent,
+} from 'react';
 import * as yup from 'yup';
 // @material-ui/core components
 import { useForm, Controller } from 'react-hook-form';
@@ -43,19 +49,13 @@ const validationSchema = yup.object().shape({
     .required()
     // .matches(reg, '手机号码不正确。')
     .label('账号'),
-  password: yup
-    .string()
-    .max(50)
-    .trim()
-    .required()
-    .label('密码'),
+  password: yup.string().max(50).trim().required().label('密码'),
 });
 
 export type LoginType = {
   username: string;
   password: string;
 };
-
 
 interface LoginPageType {}
 
@@ -67,8 +67,6 @@ export default function LoginPage(props: LoginPageType) {
     // defaultValues: {password: '11111'},
   });
 
-  
-
   setTimeout(() => {
     setCardAnimation('');
   }, 700);
@@ -79,17 +77,16 @@ export default function LoginPage(props: LoginPageType) {
   const [signData, setSignData] = useState<LoginType>();
 
   const { data, revalidate, mutate, error, isValidating } = useApiLogin(
-    { username:signData?.username || '', password:signData?.password ||'' },
-    { autoTrigger: false, shouldRetryOnError:false }
+    { username: signData?.username || '', password: signData?.password || '' },
+    { autoTrigger: false, shouldRetryOnError: false }
   );
 
-  const onSubmit = (signIndata: LoginType, event?:BaseSyntheticEvent) => {
+  const onSubmit = (signIndata: LoginType, event?: BaseSyntheticEvent) => {
     event && event.preventDefault();
     setSignData(signIndata);
     // mutate();
   };
   const memoHanleSubmit = useCallback(handleSubmit(onSubmit), []);
-
 
   useEffect(() => {
     if (data) {
@@ -100,11 +97,10 @@ export default function LoginPage(props: LoginPageType) {
     };
   }, [data, dispatch, mutate]);
 
-
-  useEffect(()=>{
-    if(signData){
+  useEffect(() => {
+    if (signData) {
       revalidate();
-    } 
+    }
   }, [signData, revalidate]);
 
   return (
@@ -162,7 +158,10 @@ export default function LoginPage(props: LoginPageType) {
                     </div>
                   </CardHeader>
                   <p className={classes.divider}>Or Be Classical</p>
-                  <ErrorLable error={error?.response?.data.error} style={{ textAlign:'center' }} />
+                  <ErrorLable
+                    error={error?.response?.data.error}
+                    style={{ textAlign: 'center' }}
+                  />
                   <CardBody>
                     <Controller
                       as={CustomInput}
@@ -240,13 +239,12 @@ export default function LoginPage(props: LoginPageType) {
                     <ErrorLable error={errors.password} />
                   </CardBody>
                   <CardFooter className={classes.cardFooter}>
-              
                     <Button
                       simple
                       loading={isValidating}
                       color="primary"
                       size="lg"
-                    //   startIcon={}
+                      //   startIcon={}
                       onClick={memoHanleSubmit}
                     >
                       点击登录

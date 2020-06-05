@@ -19,11 +19,23 @@ import bgImage from 'assets/img/sidebar-2.jpg';
 import logo from 'assets/img/reactlogo.png';
 
 let ps;
+const routesAll = [];
+routes.forEach(item=> {
+  if(item.layout){
+    routesAll.push(item);
+  }
+  if(item.routes){
+    item.routes.forEach(item2=>{
+      routesAll.push(item2);
+    });
+  }
+
+});
 
 const switchRoutes = (
   <Switch>
-    {routes.map((prop, key) => {
-      if (!Array.isArray(prop) && prop.layout === '/admin') {
+    {routesAll.map((prop, key) => {
+      if (prop.layout && prop.layout === '/admin') {
         return (
           <Route
             path={prop.layout + prop.path}

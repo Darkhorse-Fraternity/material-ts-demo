@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -22,12 +22,13 @@ export default function Header(props) {
   function makeBrand() {
     let name;
     props.routes.map(prop => {
-      if(!Array.isArray(prop)){
+      if(prop.layout){
         if (window.location.href.indexOf(prop.layout + prop.path) !== -1) {
           name =  prop.name;
         }
       }else {
-        prop.map(item=>{
+        // eslint-disable-next-line array-callback-return
+        prop.routes.map(item=>{
           if (window.location.href.indexOf(item.layout + item.path) !== -1) {
             name =  prop.name;
           }

@@ -8,35 +8,59 @@
 // prettier-ignore
 import { Method, RequestBodyType, ResponseBodyType, RequestConfig, RequestFunctionRestArgs, FileData, prepare } from 'yapi-to-typescript'
 // @ts-ignore
-import request from './request'
+import request from './request';
 // @ts-ignore
-import makeRequestHook from './makeRequestHook'
+import makeRequestHook from './makeRequestHook';
 
 // makeRequest
-function makeRequestRequired<TReqeustData, TResponseData, TRequestConfig extends RequestConfig>(
-  requestConfig: TRequestConfig,
-) {
-  const req = function(requestData: TReqeustData, ...args: RequestFunctionRestArgs<typeof request>) {
-    return request<TResponseData>(prepare(requestConfig, requestData), ...args)
-  }
-  req.requestConfig = requestConfig
-  return req
+function makeRequestRequired<
+  TReqeustData,
+  TResponseData,
+  TRequestConfig extends RequestConfig
+>(requestConfig: TRequestConfig) {
+  const req = function (
+    requestData: TReqeustData,
+    ...args: RequestFunctionRestArgs<typeof request>
+  ) {
+    return request<TResponseData>(prepare(requestConfig, requestData), ...args);
+  };
+  req.requestConfig = requestConfig;
+  return req;
 }
-function makeRequestOptional<TReqeustData, TResponseData, TRequestConfig extends RequestConfig>(
-  requestConfig: TRequestConfig,
-) {
-  const req = function(requestData?: TReqeustData, ...args: RequestFunctionRestArgs<typeof request>) {
-    return request<TResponseData>(prepare(requestConfig, requestData), ...args)
-  }
-  req.requestConfig = requestConfig
-  return req
+function makeRequestOptional<
+  TReqeustData,
+  TResponseData,
+  TRequestConfig extends RequestConfig
+>(requestConfig: TRequestConfig) {
+  const req = function (
+    requestData?: TReqeustData,
+    ...args: RequestFunctionRestArgs<typeof request>
+  ) {
+    return request<TResponseData>(prepare(requestConfig, requestData), ...args);
+  };
+  req.requestConfig = requestConfig;
+  return req;
 }
-function makeRequest<TReqeustData, TResponseData, TRequestConfig extends RequestConfig>(requestConfig: TRequestConfig) {
-  const optional = makeRequestOptional<TReqeustData, TResponseData, TRequestConfig>(requestConfig)
-  const required = makeRequestRequired<TReqeustData, TResponseData, TRequestConfig>(requestConfig)
-  return (requestConfig.requestDataOptional ? optional : required) as TRequestConfig['requestDataOptional'] extends true
+function makeRequest<
+  TReqeustData,
+  TResponseData,
+  TRequestConfig extends RequestConfig
+>(requestConfig: TRequestConfig) {
+  const optional = makeRequestOptional<
+    TReqeustData,
+    TResponseData,
+    TRequestConfig
+  >(requestConfig);
+  const required = makeRequestRequired<
+    TReqeustData,
+    TResponseData,
+    TRequestConfig
+  >(requestConfig);
+  return (requestConfig.requestDataOptional
+    ? optional
+    : required) as TRequestConfig['requestDataOptional'] extends true
     ? typeof optional
-    : typeof required
+    : typeof required;
 }
 
 // Request
@@ -45,15 +69,21 @@ export type Request<
   TRequestConfig extends RequestConfig,
   TRequestResult
 > = (TRequestConfig['requestDataOptional'] extends true
-  ? (requestData?: TReqeustData, ...args: RequestFunctionRestArgs<typeof request>) => TRequestResult
-  : (requestData: TReqeustData, ...args: RequestFunctionRestArgs<typeof request>) => TRequestResult) & {
-  requestConfig: TRequestConfig
-}
+  ? (
+      requestData?: TReqeustData,
+      ...args: RequestFunctionRestArgs<typeof request>
+    ) => TRequestResult
+  : (
+      requestData: TReqeustData,
+      ...args: RequestFunctionRestArgs<typeof request>
+    ) => TRequestResult) & {
+  requestConfig: TRequestConfig;
+};
 
-const mockUrl_0_0_0_0 = 'http://121.89.170.197:3000/mock/17' as any
-const devUrl_0_0_0_0 = 'https://jrfwyncx.lc-cn-n1-shared.com' as any
-const prodUrl_0_0_0_0 = '' as any
-const dataKey_0_0_0_0 = undefined as any
+const mockUrl_0_0_0_0 = 'http://121.89.170.197:3000/mock/17' as any;
+const devUrl_0_0_0_0 = 'https://jrfwyncx.lc-cn-n1-shared.com' as any;
+const prodUrl_0_0_0_0 = '' as any;
+const dataKey_0_0_0_0 = undefined as any;
 
 /**
  * 接口 [登录↗](http://121.89.170.197:3000/project/17/interface/api/8) 的 **请求类型**
@@ -63,8 +93,8 @@ const dataKey_0_0_0_0 = undefined as any
  * @更新时间 `2020-05-27 11:27:26`
  */
 export interface ApiLoginRequest {
-  username: string
-  password: string
+  username: string;
+  password: string;
 }
 
 /**
@@ -75,13 +105,13 @@ export interface ApiLoginRequest {
  * @更新时间 `2020-05-27 11:27:26`
  */
 export interface ApiLoginResponse {
-  sessionToken: string
-  updatedAt: string
-  objectId: string
-  username: string
-  createdAt: string
-  emailVerified: boolean
-  mobilePhoneVerified: boolean
+  sessionToken: string;
+  updatedAt: string;
+  objectId: string;
+  username: string;
+  createdAt: string;
+  emailVerified: boolean;
+  mobilePhoneVerified: boolean;
 }
 
 /**
@@ -101,7 +131,7 @@ type ApiLoginRequestConfig = Readonly<
     string,
     false
   >
->
+>;
 
 /**
  * 接口 [登录↗](http://121.89.170.197:3000/project/17/interface/api/8) 的 **请求配置**
@@ -121,7 +151,7 @@ const apiLoginRequestConfig: ApiLoginRequestConfig = {
   dataKey: dataKey_0_0_0_0,
   paramNames: [],
   requestDataOptional: false,
-}
+};
 
 /**
  * 接口 [登录↗](http://121.89.170.197:3000/project/17/interface/api/8) 的 **请求函数**
@@ -130,7 +160,11 @@ const apiLoginRequestConfig: ApiLoginRequestConfig = {
  * @请求头 `POST /1.1/login`
  * @更新时间 `2020-05-27 11:27:26`
  */
-export const apiLogin = makeRequest<ApiLoginRequest, ApiLoginResponse, ApiLoginRequestConfig>(apiLoginRequestConfig)
+export const apiLogin = makeRequest<
+  ApiLoginRequest,
+  ApiLoginResponse,
+  ApiLoginRequestConfig
+>(apiLoginRequestConfig);
 
 /**
  * 接口 [登录↗](http://121.89.170.197:3000/project/17/interface/api/8) 的 **React Hook**
@@ -139,8 +173,10 @@ export const apiLogin = makeRequest<ApiLoginRequest, ApiLoginResponse, ApiLoginR
  * @请求头 `POST /1.1/login`
  * @更新时间 `2020-05-27 11:27:26`
  */
-export const useApiLogin = makeRequestHook<ApiLoginRequest, ApiLoginRequestConfig, ReturnType<typeof apiLogin>>(
-  apiLogin,
-)
+export const useApiLogin = makeRequestHook<
+  ApiLoginRequest,
+  ApiLoginRequestConfig,
+  ReturnType<typeof apiLogin>
+>(apiLogin);
 
 /* prettier-ignore-end */

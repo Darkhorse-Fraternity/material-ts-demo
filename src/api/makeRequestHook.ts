@@ -5,10 +5,9 @@ import baseRequest from './request';
 import { leancloudHeaders } from './leancloud';
 import useApi, { Config } from './useApi';
 
-
 interface ErrorType {
-  code:number;
-  error:string;
+  code: number;
+  error: string;
 }
 
 export default function makeRequestHook<

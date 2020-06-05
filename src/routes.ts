@@ -49,28 +49,22 @@ const dashboardRoutes = [
     layout: '/admin',
   },
   {
-    path: '/Search',
-    name: 'Search',
+    name: 'SearchRoutes',
     icon: Person,
-    component: Search,
-    layout: '/admin',
-  },
-  [
-    {
+    routes:[{
       path: '/Search',
       name: 'Search',
       icon: Person,
       component: Search,
       layout: '/admin',
-    },
-    {
-      path: '/user',
-      name: 'User Profile',
+    }, {
+      path: '/Search2',
+      name: 'Search2',
       icon: Person,
-      component: UserProfile,
+      component: Search,
       layout: '/admin',
-    },
-  ],
+    }]
+  },
   {
     path: '/table',
     name: 'Table List',

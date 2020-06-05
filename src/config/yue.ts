@@ -1,7 +1,6 @@
 /* eslint-disable no-template-curly-in-string */
 import * as yup from 'yup';
 
-
 // export const config = () => {
 const typeToZh_cn = {
   number: '数字',
@@ -12,7 +11,10 @@ yup.setLocale({
   mixed: {
     default: '${path}混合类型错误',
     required: '${path}不可以为空哦～',
-    notType: params => `${params.path}需要${typeToZh_cn[params.type as 'string'| 'number']}类型`,
+    notType: (params) =>
+      `${params.path}需要${
+        typeToZh_cn[params.type as 'string' | 'number']
+      }类型`,
   },
   number: {
     min: '${path}不可以小于${min}',
