@@ -7,29 +7,26 @@ import { makeStyles } from '@material-ui/core/styles';
 import GridItem from 'components/Grid/GridItem';
 import GridContainer from 'components/Grid/GridContainer';
 import CustomInput from 'components/CustomInput/CustomInput';
-import Button, { RegularButtonType } from 'components/CustomButtons/Button';
-import Select from '@material-ui/core/Select';
-import {
-  FormControl,
-  MenuItem,
-  FormGroup,
-  Checkbox,
-  FormControlLabel,
-} from '@material-ui/core';
+// import { RegularButtonType } from 'components/CustomButtons/Button';
+import Datetime from 'react-datetime';
+import { FormGroup, Checkbox, FormControlLabel } from '@material-ui/core';
 import CardBody from 'components/Card/CardBody';
 import CardHeader from 'components/Card/CardHeader';
 import Card from 'components/Card/Card';
 import CardFooter from 'components/Card/CardFooter';
-
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import Button, { ButtonTypeMap } from '@material-ui/core/Button';
+// const moment = require('moment');
+require('moment/locale/zh-cn');
 
 const categorys = [
-  { lable:'选择1', value:'value1' }, 
-  { lable:'选择2', value:'value2' }, 
-  { lable:'选择3', value:'value3' }, 
-  { lable:'选择4', value:'value4' }, 
-  { lable:'选择5', value:'value5' }];
+  { lable: '微信支付', value: 'wechat' },
+  { lable: '支付宝', value: 'alipay' },
+  { lable: '余额', value: 'cash' },
+];
 
-interface RadioButtonType extends Omit<RegularButtonType, 'onClick'> {
+interface RadioButtonType extends Omit<ButtonTypeMap['props'], 'onClick'> {
   disabled?: boolean;
   value?: unknown;
   checked: boolean;
@@ -40,8 +37,10 @@ const RadioButton: FC<RadioButtonType> = (props) => {
   const { children, disabled, checked, onClick, value, ...rest } = props;
   return (
     <Button
-      color={checked ? 'primary' : 'danger'}
       disabled={disabled}
+      color="primary"
+      style={{ width: 100, marginLeft: '20px' }}
+      variant={checked ? 'outlined' : undefined}
       onClick={(e) => {
         onClick && onClick(value);
       }}
@@ -72,12 +71,22 @@ const styles = {
   formControl: {
     minWidth: 120,
   },
+  label: {
+    color: 'rgba(0, 0, 0, 0.26)',
+    cursor: 'pointer',
+    display: 'inline-flex',
+    fontSize: '14px',
+    transition: '0.3s ease all',
+    lineHeight: '1.428571429',
+    fontWeight: 400,
+    paddingLeft: '0',
+    letterSpacing: 'normal',
+  },
 };
 
 const useStyles = makeStyles(styles);
 
-export default function Add(props:unknown) {
-    
+export default function Add(props: unknown) {
   const classes = useStyles();
   const [value, setValue] = React.useState('female');
 
@@ -85,11 +94,11 @@ export default function Add(props:unknown) {
     setValue(event as string);
   };
 
-  const [age, setAge] = React.useState('');
+  //   const [age, setAge] = React.useState('');
 
-  const handleChangeAge = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setAge(event.target.value as string);
-  };
+  //   const handleChangeAge = (event: React.ChangeEvent<{ value: unknown }>) => {
+  //     setAge(event.target.value as string);
+  //   };
 
   const [state, setState] = React.useState({
     checkedA: true,
@@ -112,86 +121,96 @@ export default function Add(props:unknown) {
               <p className={classes.cardCategoryWhite}>订单提交</p>
             </CardHeader>
             <CardBody>
-              <GridItem xs={12} sm={12} md={12}>
-                支付方式:{'   '}
-                {categorys.map(({ value:value1, lable })=>(
-                  <RadioButton
-                    value={value1}
-                    key={value1}
-                    checked={value === value1}
-                    onClick={handleChange}
-                  >
-                    {lable}
-                  </RadioButton>
-                ))}
-              </GridItem>
-              <GridItem xs={12} sm={12} md={12}>
-                支付状态:{'   '}
-                <FormControl className={classes.formControl}>
-                  {/* <InputLabel id="demo-simple-select-label">年龄</InputLabel> */}
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={age}
-                    onChange={handleChangeAge}
-                  >
-                    <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
-                  </Select>
-                </FormControl>
-              </GridItem>
-              <GridItem xs={12} sm={12} md={12}>
-                多选:{'   '}
-                <FormGroup row>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={state.checkedA}
-                        onChange={handleChangeState}
-                        name="checkedA"
-                      />
-                      }
-                    label="Secondary"
-                  />
-                  <FormControlLabel
-                    control={<Checkbox name="checkedC" />}
-                    label="Uncontrolled"
-                  />
-                </FormGroup>
-              </GridItem>
               <GridContainer>
-                <GridItem xs={12} sm={12} md={5}>
+                <GridItem xs={12} sm={12} md={12}>
+                  <InputLabel
+                    style={{ color: '#AAAAAA' }}
+                    className={classes.label}
+                  >
+                    支付方式
+                  </InputLabel>
+                  {categorys.map(({ value: value1, lable }) => (
+                    <RadioButton
+                      value={value1}
+                      key={value1}
+                      checked={value === value1}
+                      onClick={handleChange}
+                    >
+                      {lable}
+                    </RadioButton>
+                  ))}
+                </GridItem>
+              </GridContainer>
+              <GridContainer>
+                <GridItem xs={12} sm={12} md={12}>
+                  <InputLabel
+                    style={{ color: '#AAAAAA' }}
+                    className={classes.label}
+                  >
+                    支付状态
+                  </InputLabel>
+                  <FormGroup row>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={state.checkedA}
+                          onChange={handleChangeState}
+                          name="checkedA"
+                        />
+                      }
+                      label="已支付"
+                    />
+                  </FormGroup>
+                </GridItem>
+              </GridContainer>
+              <GridContainer>
+                <GridItem xs={12} sm={12} md={6}>
+                  <InputLabel
+                    style={{ color: '#AAAAAA' }}
+                    className={classes.label}
+                  >
+                    开始时间
+                  </InputLabel>
+                  <br />
+                  <FormControl fullWidth>
+                    <Datetime
+                      //   locale="zh-cn"
+                      inputProps={{ placeholder: '选择开始时间' }}
+                    />
+                  </FormControl>
+                </GridItem>
+                <GridItem xs={12} sm={12} md={6}>
+                  <InputLabel
+                    style={{ color: '#AAAAAA' }}
+                    className={classes.label}
+                  >
+                    结束时间
+                  </InputLabel>
+                  <br />
+                  <FormControl fullWidth>
+                    <Datetime
+                      //   locale="zh-cn"
+                      inputProps={{ placeholder: '选择结束时间' }}
+                    />
+                  </FormControl>
+                </GridItem>
+              </GridContainer>
+              <GridContainer>
+                <GridItem xs={12} sm={12} md={12}>
+                  <InputLabel style={{ color: '#AAAAAA' }}>订单描述</InputLabel>
                   <CustomInput
-                    labelText="Company (disabled)"
-                    id="company-disabled"
+                    labelText="Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo."
+                    id="about-me"
                     formControlProps={{
                       fullWidth: true,
                     }}
                     inputProps={{
-                      disabled: true,
+                      multiline: true,
+                      rows: 5,
                     }}
                   />
                 </GridItem>
-                <GridItem xs={12} sm={12} md={3}>
-                  <CustomInput
-                    labelText="Username"
-                    id="username"
-                    formControlProps={{
-                      fullWidth: true,
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={4}>
-                  <CustomInput
-                    labelText="Email address"
-                    id="email-address"
-                    formControlProps={{
-                      fullWidth: true,
-                    }}
-                  />
-                </GridItem>
-              </GridContainer> 
+              </GridContainer>
             </CardBody>
             <CardFooter>
               <Button color="primary">提交</Button>

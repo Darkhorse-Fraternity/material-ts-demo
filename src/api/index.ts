@@ -248,7 +248,7 @@ export const useApiPostOrder = makeRequestHook<
  *
  * @分类 [公共分类↗](http://121.89.170.197:3000/project/17/interface/api/cat_18)
  * @请求头 `GET /1.1/classes/Order`
- * @更新时间 `2020-06-05 16:36:36`
+ * @更新时间 `2020-06-09 18:16:20`
  */
 export interface ApiGetOrderRequest {
   limit?: string
@@ -263,23 +263,25 @@ export interface ApiGetOrderRequest {
  *
  * @分类 [公共分类↗](http://121.89.170.197:3000/project/17/interface/api/cat_18)
  * @请求头 `GET /1.1/classes/Order`
- * @更新时间 `2020-06-05 16:36:36`
+ * @更新时间 `2020-06-09 18:16:20`
  */
 export interface ApiGetOrderResponse {
-  payType?: string
-  statu?: number
-  updatedAt?: string
-  startTime?: {
-    __type?: string
-    iso?: string
-  }
-  objectId?: string
-  endTime?: {
-    __type?: string
-    iso?: string
-  }
-  createdAt?: string
-  discrib?: string
+  results: {
+    payType: string
+    statu: number
+    createdAt: string
+    updatedAt: string
+    endTime: {
+      __type?: string
+      iso?: string
+    }
+    startTime: {
+      __type?: string
+      iso?: string
+    }
+    objectId: string
+    discrib?: string
+  }[]
 }
 
 /**
@@ -287,7 +289,7 @@ export interface ApiGetOrderResponse {
  *
  * @分类 [公共分类↗](http://121.89.170.197:3000/project/17/interface/api/cat_18)
  * @请求头 `GET /1.1/classes/Order`
- * @更新时间 `2020-06-05 16:36:36`
+ * @更新时间 `2020-06-09 18:16:20`
  */
 type ApiGetOrderRequestConfig = Readonly<
   RequestConfig<
@@ -306,7 +308,7 @@ type ApiGetOrderRequestConfig = Readonly<
  *
  * @分类 [公共分类↗](http://121.89.170.197:3000/project/17/interface/api/cat_18)
  * @请求头 `GET /1.1/classes/Order`
- * @更新时间 `2020-06-05 16:36:36`
+ * @更新时间 `2020-06-09 18:16:20`
  */
 const apiGetOrderRequestConfig: ApiGetOrderRequestConfig = {
   mockUrl: mockUrl_0_0_0_0,
@@ -326,7 +328,7 @@ const apiGetOrderRequestConfig: ApiGetOrderRequestConfig = {
  *
  * @分类 [公共分类↗](http://121.89.170.197:3000/project/17/interface/api/cat_18)
  * @请求头 `GET /1.1/classes/Order`
- * @更新时间 `2020-06-05 16:36:36`
+ * @更新时间 `2020-06-09 18:16:20`
  */
 export const apiGetOrder = makeRequest<ApiGetOrderRequest, ApiGetOrderResponse, ApiGetOrderRequestConfig>(
   apiGetOrderRequestConfig,
@@ -337,7 +339,7 @@ export const apiGetOrder = makeRequest<ApiGetOrderRequest, ApiGetOrderResponse, 
  *
  * @分类 [公共分类↗](http://121.89.170.197:3000/project/17/interface/api/cat_18)
  * @请求头 `GET /1.1/classes/Order`
- * @更新时间 `2020-06-05 16:36:36`
+ * @更新时间 `2020-06-09 18:16:20`
  */
 export const useApiGetOrder = makeRequestHook<
   ApiGetOrderRequest,

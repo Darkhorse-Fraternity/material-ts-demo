@@ -24,11 +24,14 @@ export default function request<TResponseData>(
   const { path, method, data, devUrl, prodUrl } = payload;
   const baseURL = options.server === 'dev' ? devUrl : prodUrl;
   //   return { payload, options };
+  console.log('url', path);
+  console.log('data', data);
+  console.log('method', method);
   return axios({
     baseURL,
     url: path,
     method,
     headers: leancloudHeaders,
-    data,
+    params:data,
   });
 }

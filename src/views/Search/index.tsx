@@ -1,4 +1,5 @@
-import React, { FC } from 'react';
+/* eslint-disable react/jsx-curly-newline */
+import React, { FC, useState, useRef } from 'react';
 // @material-ui/core components
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -12,8 +13,19 @@ import Card from 'components/Card/Card';
 // import CardHeader from 'components/Card/CardHeader';
 import CardBody from 'components/Card/CardBody';
 // import CardFooter from 'components/Card/CardFooter';
-import Table from 'components/Table/Table';
+// import Table from 'components/Table/Table';
 import Select from '@material-ui/core/Select';
+// import VirtualizedTable from 'components/Table/VirtualizedTable';
+import {
+  InfiniteLoader,
+  Table,
+  Column,
+  //   ListRowRenderer,
+  IndexRange,
+  Index,
+  AutoSizer,
+} from 'react-virtualized';
+import 'react-virtualized/styles.css';
 import {
   FormControl,
   MenuItem,
@@ -21,14 +33,17 @@ import {
   Checkbox,
   FormControlLabel,
 } from '@material-ui/core';
-
+import { useApiGetOrder } from 'api';
+import moment from 'moment';
+import { resolve } from 'path';
 
 const categorys = [
-  { lable:'选择1', value:'value1' }, 
-  { lable:'选择2', value:'value2' }, 
-  { lable:'选择3', value:'value3' }, 
-  { lable:'选择4', value:'value4' }, 
-  { lable:'选择5', value:'value5' }];
+  { lable: '选择1', value: 'value1' },
+  { lable: '选择2', value: 'value2' },
+  { lable: '选择3', value: 'value3' },
+  { lable: '选择4', value: 'value4' },
+  { lable: '选择5', value: 'value5' },
+];
 
 interface RadioButtonType extends Omit<RegularButtonType, 'onClick'> {
   disabled?: boolean;
@@ -73,13 +88,69 @@ const styles = {
   formControl: {
     minWidth: 120,
   },
+  tableResponsive: {
+    width: '100%',
+    marginTop: 10,
+    overflowX: 'auto',
+  },
 };
 
-const useStyles = makeStyles(styles);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const useStyles = makeStyles(styles as any);
+
+// const remoteRowCount = 0;
+
+const noRowsRenderer = () => {
+  return <div>No rows</div>;
+};
 
 export default function Search() {
   const classes = useStyles();
   const [value, setValue] = React.useState('female');
+
+  const [listParams, setListParams] = useState({
+    skip: '0',
+    limit: '20',
+  });
+
+  const { data, revalidate, isValidating } = useApiGetOrder(listParams);
+  const { results = [] } = data || {};
+
+  const list = [...results];
+  //   const ref = useRef(results);
+  // if(listParams.)
+  const rowCount = 20;
+
+  function isRowLoaded({ index }: Index) {
+    return !!list[index];
+  }
+
+  function loadMoreRows({ startIndex, stopIndex }: IndexRange) {
+    console.log('111', startIndex, stopIndex);
+
+    // setListParams({
+    //   skip: `${startIndex}`,
+    //   limit: `${stopIndex - startIndex}`,
+    // });
+    // 如果是异步的话，就做延迟吧。
+
+    // eslint-disable-next-line no-shadow
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        // revalidate().then((isDone) => {
+        //   resolve(isDone);
+        // });
+      }, 100);
+    });
+  }
+
+  //   const rowRenderer: ListRowRenderer = ({ key, index, style }) => {
+  //     return (
+  //       <div key={key} style={style}>
+  //         {list[index].statu}
+  //       </div>
+  //     );
+  //   };
 
   const handleChange = (event: unknown) => {
     setValue(event as string);
@@ -107,7 +178,7 @@ export default function Search() {
       <GridContainer>
         <GridItem xs={12} sm={12} md={12}>
           分类:{'   '}
-          {categorys.map(({ value:value1, lable })=>(
+          {categorys.map(({ value: value1, lable }) => (
             <RadioButton
               value={value1}
               key={value1}
@@ -144,7 +215,7 @@ export default function Search() {
                   onChange={handleChangeState}
                   name="checkedA"
                 />
-                      }
+              }
               label="Secondary"
             />
             <FormControlLabel
@@ -185,7 +256,6 @@ export default function Search() {
         </GridItem>
       </GridContainer>
       <GridContainer>
-    
         <GridItem xs={12} sm={12} md={12}>
           <Card>
             {/* <CardHeader color="primary">
@@ -195,23 +265,89 @@ export default function Search() {
               </p>
             </CardHeader> */}
             <CardBody>
-              <Table
-                tableHeaderColor="primary"
-                tableHead={['Name', 'Country', 'City', 'Salary']}
-                tableData={[
-                  ['Dakota Rice', 'Niger', 'Oud-Turnhout', '$36,738'],
-                  ['Minerva Hooper', 'Curaçao', 'Sinaai-Waas', '$23,789'],
-                  ['Sage Rodriguez', 'Netherlands', 'Baileux', '$56,142'],
-                  ['Philip Chaney', 'Korea, South', 'Overland Park', '$38,735'],
-                  [
-                    'Doris Greene',
-                    'Malawi',
-                    'Feldkirchen in Kärnten',
-                    '$63,542',
-                  ],
-                  ['Mason Porter', 'Chile', 'Gloucester', '$78,615'],
+              <InfiniteLoader
+                isRowLoaded={isRowLoaded}
+                loadMoreRows={loadMoreRows}
+                rowCount={1000}
+              >
+                {({ onRowsRendered, registerChild }) => (
+                  <AutoSizer disableHeight>
+                    {({ width }) => (
+                      <Table
+                        ref={registerChild}
+                        onRowsRendered={onRowsRendered}
+                        noRowsRenderer={noRowsRenderer}
+                        width={width}
+                        height={300}
+                        headerHeight={40}
+                        rowHeight={30}
+                        rowCount={list.length}
+                        rowGetter={({ index }) => list[index]}
+                      >
+                        <Column
+                          label="序号"
+                          //   cellDataGetter={({ rowData }) => rowData.objectId}
+                          cellRenderer={({ rowIndex }) => rowIndex}
+                          dataKey="index"
+                          width={width / 6}
+                          minWidth={50}
+                        />
+                        <Column
+                          label="支付方式"
+                          cellDataGetter={({ rowData }) => rowData.payType}
+                          //   cellRenderer={({ rowIndex }) => rowIndex}
+                          dataKey="payType"
+                          width={width / 6}
+                          minWidth={50}
+                        />
+                        <Column
+                          label="支付状态"
+                          cellDataGetter={({ rowData }) =>
+                            rowData.statu ? '已完成' : '未完成'
+                          }
+                          //   cellRenderer={({ rowIndex }) =>
+                          //     rowIndex === 1 ? '已完成' : '未完成'
+                          //   }
+                          dataKey="statu"
+                          width={width / 6}
+                          minWidth={50}
+                        />
+                        <Column
+                          label="支付时间"
+                          cellDataGetter={({ rowData }) =>
+                            moment(rowData.startTime.iso)
+                          }
+                          //   cellRenderer={({ rowIndex }) => rowIndex}
+                          dataKey="time"
+                          width={width / 6}
+                          minWidth={200}
+                        />
+                      </Table>
+                    )}
+                  </AutoSizer>
+                )}
+              </InfiniteLoader>
+              {/* <VirtualizedTable
+                rowCount={list.length}
+                rowGetter={({ index }) => list[index]}
+                columns={[
+                  {
+                    width: 200,
+                    label: '支付方式',
+                    dataKey: 'payType',
+                  },
+                  {
+                    width: 120,
+                    label: '支付状态',
+                    dataKey: 'statu',
+                  },
+                  //   {
+                  //     width: 120,
+                  //     label: '支付时间',
+                  //     dataKey: 'startTime',
+                  //   },
                 ]}
-              />
+              /> */}
             </CardBody>
           </Card>
         </GridItem>

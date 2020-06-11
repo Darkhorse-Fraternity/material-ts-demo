@@ -15,9 +15,9 @@ import LoginPage from 'layouts/LoginPage';
 import LandingPage from 'layouts/LandingPage/LandingPage';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
-
 import * as serviceWorker from './serviceWorker';
 import 'assets/css/material-dashboard-react.css?v=1.8.0';
+import 'assets/css/react-datetime.css';
 
 const hist = createBrowserHistory();
 
@@ -38,7 +38,8 @@ const PrivateRoute = ({
     <Route
       {...rest}
       render={(props) =>
-        isLogin ? <Component {...props} /> : <Redirect to="/login" />}
+        isLogin ? <Component {...props} /> : <Redirect to="/login" />
+      }
     />
   );
 };
@@ -60,7 +61,8 @@ const PublicRoute = ({
           <Redirect to="/admin" />
         ) : (
           <Component {...props} />
-        )}
+        )
+      }
     />
   );
 };

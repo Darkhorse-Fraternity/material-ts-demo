@@ -1,5 +1,6 @@
+/* eslint-disable react/no-array-index-key */
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -10,9 +11,17 @@ import TableCell from '@material-ui/core/TableCell';
 // core components
 import styles from 'assets/jss/material-dashboard-react/components/tableStyle';
 
-const useStyles = makeStyles(styles);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const useStyles = makeStyles(styles as any);
 
-export default function CustomTable(props) {
+interface CustomTableType {
+  tableHead: string[];
+  tableData: string[][];
+  tableHeaderColor:'warning' | 'primary' | 'danger' |'success' |'info'|'rose'|'gray';
+}
+
+
+export default function CustomTable(props:CustomTableType) {
   const classes = useStyles();
   const { tableHead, tableData, tableHeaderColor } = props;
   return (
@@ -38,10 +47,10 @@ export default function CustomTable(props) {
           {tableData.map((prop, key) => {
             return (
               <TableRow key={key} className={classes.tableBodyRow}>
-                {prop.map((prop, key) => {
+                {prop.map((propin, key2) => {
                   return (
-                    <TableCell className={classes.tableCell} key={key}>
-                      {prop}
+                    <TableCell className={classes.tableCell} key={key2}>
+                      {propin}
                     </TableCell>
                   );
                 })}
@@ -58,16 +67,16 @@ CustomTable.defaultProps = {
   tableHeaderColor: 'gray'
 };
 
-CustomTable.propTypes = {
-  tableHeaderColor: PropTypes.oneOf([
-    'warning',
-    'primary',
-    'danger',
-    'success',
-    'info',
-    'rose',
-    'gray'
-  ]),
-  tableHead: PropTypes.arrayOf(PropTypes.string),
-  tableData: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string))
-};
+// CustomTable.propTypes = {
+//   tableHeaderColor: PropTypes.oneOf([
+//     'warning',
+//     'primary',
+//     'danger',
+//     'success',
+//     'info',
+//     'rose',
+//     'gray'
+//   ]),
+//   tableHead: PropTypes.arrayOf(PropTypes.string),
+//   tableData: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string))
+// };

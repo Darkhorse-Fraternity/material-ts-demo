@@ -5,8 +5,8 @@ export type RequestDataType = AxiosRequestConfig | null;
 
 interface Return<Data, Error>
   extends Pick<
-    responseInterface<AxiosResponse<Data>, AxiosError<Error>>,
-    'isValidating' | 'revalidate' | 'error' | 'mutate'
+  responseInterface<AxiosResponse<Data>, AxiosError<Error>>,
+  'isValidating' | 'revalidate' | 'error' | 'mutate'
   > {
   data: Data | undefined;
   response: AxiosResponse<Data> | undefined;
@@ -14,10 +14,10 @@ interface Return<Data, Error>
 
 export interface Config<Data = unknown, Error = unknown>
   extends Omit<
-    // 感觉 ts 出了bug 似的
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ConfigInterface<AxiosResponse<Data>, AxiosError<any>>,
-    'initialData'
+  // 感觉 ts 出了bug 似的
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ConfigInterface<AxiosResponse<Data>, AxiosError<any>>,
+  'initialData'
   > {
   initialData?: Data;
 }
@@ -28,8 +28,8 @@ export default function useApi<Data = unknown, Error = unknown>(
   { initialData, ...config }: Config<Data, Error> = {}
 ): Return<Data, Error> {
   const { data: response, error, isValidating, revalidate, mutate } = useSWR<
-    AxiosResponse<Data>,
-    AxiosError<Error>
+  AxiosResponse<Data>,
+  AxiosError<Error>
   >(
     data && JSON.stringify(data), // 只做重载使用
     /**
