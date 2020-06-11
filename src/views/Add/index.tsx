@@ -8,8 +8,8 @@ import GridItem from 'components/Grid/GridItem';
 import GridContainer from 'components/Grid/GridContainer';
 import CustomInput from 'components/CustomInput/CustomInput';
 // import { RegularButtonType } from 'components/CustomButtons/Button';
-import Datetime from 'react-datetime';
-import { FormGroup, Checkbox, FormControlLabel } from '@material-ui/core';
+import Datetime, { DatetimepickerProps } from 'react-datetime';
+import { FormGroup, Checkbox, FormControlLabel, CheckboxProps } from '@material-ui/core';
 import CardBody from 'components/Card/CardBody';
 import CardHeader from 'components/Card/CardHeader';
 import Card from 'components/Card/Card';
@@ -17,8 +17,35 @@ import CardFooter from 'components/Card/CardFooter';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Button, { ButtonTypeMap } from '@material-ui/core/Button';
+import { useForm, Controller } from 'react-hook-form';
+import * as yup from 'yup';
 // const moment = require('moment');
 require('moment/locale/zh-cn');
+
+const validationSchema = yup.object().shape({
+  startTime: yup
+    .date()
+    .required()
+  // .matches(reg, '手机号码不正确。')
+    .label('开始时间'),
+  endTime: yup
+    .date()
+    .required()
+  // .matches(reg, '手机号码不正确。')
+    .label('结束时间'),
+  payType: yup.string().max(50).trim().required().label('支付类型'),
+  statu: yup.number().max(1).required().label('支付状态'),
+  discrib: yup.string().max(1).trim().required().label('支付描述'),
+});
+
+export type OrderType = {
+  startTime: Date;
+  endTime: Date;
+  payType:string;
+  statu:number;
+  discrib:string;
+};
+
 
 const categorys = [
   { lable: '微信支付', value: 'wechat' },
@@ -30,7 +57,7 @@ interface RadioButtonType extends Omit<ButtonTypeMap['props'], 'onClick'> {
   disabled?: boolean;
   value?: unknown;
   checked: boolean;
-  onClick: (e: unknown) => void;
+  onClick?: (e: unknown) => void;
 }
 
 const RadioButton: FC<RadioButtonType> = (props) => {
@@ -50,6 +77,9 @@ const RadioButton: FC<RadioButtonType> = (props) => {
     </Button>
   );
 };
+
+
+
 
 const styles = {
   cardCategoryWhite: {
@@ -86,19 +116,59 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
+
+interface RadioButtonsType {
+  value?:string;
+  onChange?:(e: unknown) => void
+}
+
+const RadioButtons = (props:RadioButtonsType)=>{
+  const { value, onChange } = props;
+  return (
+    <>
+      {categorys.map(({ value: value1, lable }) => (
+        <RadioButton
+          value={value1}
+          key={value1}
+          checked={value === value1}
+          onClick={onChange}
+        >
+          {lable}
+        </RadioButton>
+      ))}
+    </>
+  );
+};
+
+
+interface CheckboxGroupType extends CheckboxProps {
+  value?:{checked:boolean}
+  onCheck?:(e:{checked:boolean})=>void
+}
+
+const CheckboxGroup = (props:CheckboxGroupType)=>{
+  const { onCheck, value } = props;
+  return (
+    <FormGroup row>
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={!!value && value.checked}
+            onChange={(e, checked)=>{                
+              onCheck && onCheck({ checked });
+            }}
+            name="checkedA"
+          />
+          }
+        label="已支付"
+      />
+    </FormGroup>
+  );
+};
+
+
 export default function Add(props: unknown) {
   const classes = useStyles();
-  const [value, setValue] = React.useState('female');
-
-  const handleChange = (event: unknown) => {
-    setValue(event as string);
-  };
-
-  //   const [age, setAge] = React.useState('');
-
-  //   const handleChangeAge = (event: React.ChangeEvent<{ value: unknown }>) => {
-  //     setAge(event.target.value as string);
-  //   };
 
   const [state, setState] = React.useState({
     checkedA: true,
@@ -110,6 +180,13 @@ export default function Add(props: unknown) {
   const handleChangeState = (event: React.ChangeEvent<HTMLInputElement>) => {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
+
+
+  const { control, handleSubmit, errors } = useForm<OrderType>({
+    validationSchema,
+    mode: 'onSubmit',
+    defaultValues: { payType: 'wechat' },
+  });
 
   return (
     <div>
@@ -129,16 +206,12 @@ export default function Add(props: unknown) {
                   >
                     支付方式
                   </InputLabel>
-                  {categorys.map(({ value: value1, lable }) => (
-                    <RadioButton
-                      value={value1}
-                      key={value1}
-                      checked={value === value1}
-                      onClick={handleChange}
-                    >
-                      {lable}
-                    </RadioButton>
-                  ))}
+                  <Controller
+                    as={RadioButtons}
+                    // error={!!errors.payType}
+                    name="payType"
+                    control={control}
+                  />
                 </GridItem>
               </GridContainer>
               <GridContainer>
@@ -149,18 +222,14 @@ export default function Add(props: unknown) {
                   >
                     支付状态
                   </InputLabel>
-                  <FormGroup row>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={state.checkedA}
-                          onChange={handleChangeState}
-                          name="checkedA"
-                        />
-                      }
-                      label="已支付"
-                    />
-                  </FormGroup>
+                  <Controller
+                    as={CheckboxGroup}
+                    // error={!!errors.payType}
+                    name="statu"
+                    onChangeName="onCheck"
+                    control={control}
+                  />
+                  {/* <CheckboxGroup checkState={state} /> */}
                 </GridItem>
               </GridContainer>
               <GridContainer>
@@ -173,10 +242,14 @@ export default function Add(props: unknown) {
                   </InputLabel>
                   <br />
                   <FormControl fullWidth>
-                    <Datetime
-                      //   locale="zh-cn"
+                    <Controller
+                      as={Datetime}
+                    // error={!!errors.payType}
                       inputProps={{ placeholder: '选择开始时间' }}
+                      name="startTime"
+                      control={control}
                     />
+
                   </FormControl>
                 </GridItem>
                 <GridItem xs={12} sm={12} md={6}>
@@ -188,9 +261,12 @@ export default function Add(props: unknown) {
                   </InputLabel>
                   <br />
                   <FormControl fullWidth>
-                    <Datetime
-                      //   locale="zh-cn"
+                    <Controller
+                      as={Datetime}
+                    // error={!!errors.payType}
                       inputProps={{ placeholder: '选择结束时间' }}
+                      name="endTime"
+                      control={control}
                     />
                   </FormControl>
                 </GridItem>
@@ -198,7 +274,9 @@ export default function Add(props: unknown) {
               <GridContainer>
                 <GridItem xs={12} sm={12} md={12}>
                   <InputLabel style={{ color: '#AAAAAA' }}>订单描述</InputLabel>
-                  <CustomInput
+                  <Controller
+                    as={CustomInput}
+                    // error={!!errors.payType}
                     labelText="Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo."
                     id="about-me"
                     formControlProps={{
@@ -208,7 +286,20 @@ export default function Add(props: unknown) {
                       multiline: true,
                       rows: 5,
                     }}
+                    name="discrib"
+                    control={control}
                   />
+                  {/* <CustomInput
+                    labelText="Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo."
+                    id="about-me"
+                    formControlProps={{
+                      fullWidth: true,
+                    }}
+                    inputProps={{
+                      multiline: true,
+                      rows: 5,
+                    }}
+                  /> */}
                 </GridItem>
               </GridContainer>
             </CardBody>

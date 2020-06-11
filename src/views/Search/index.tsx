@@ -36,6 +36,7 @@ import {
 import { useApiGetOrder } from 'api';
 import moment from 'moment';
 import { resolve } from 'path';
+import { number } from 'prop-types';
 
 const categorys = [
   { lable: '选择1', value: 'value1' },
@@ -116,31 +117,32 @@ export default function Search() {
   const { data, revalidate, isValidating } = useApiGetOrder(listParams);
   const { results = [] } = data || {};
 
-  const list = [...results];
+  const listRef = useRef(results);
+  if(listParams.skip === '0'){
+    listRef.current = results;
+  }else if(listRef.current.length <  Number(listParams.limit) + Number(listParams.skip) ){
+    listRef.current.push(...results);
+  }
+  const list = listRef.current;
   //   const ref = useRef(results);
   // if(listParams.)
-  const rowCount = 20;
+  const rowCount = list.length < Number(listParams.limit) + Number(listParams.skip) ?list.length:list.length + 100;
 
   function isRowLoaded({ index }: Index) {
     return !!list[index];
   }
 
   function loadMoreRows({ startIndex, stopIndex }: IndexRange) {
-    console.log('111', startIndex, stopIndex);
 
-    // setListParams({
-    //   skip: `${startIndex}`,
-    //   limit: `${stopIndex - startIndex}`,
-    // });
     // 如果是异步的话，就做延迟吧。
 
     // eslint-disable-next-line no-shadow
     return new Promise((resolve) => {
-      setTimeout(() => {
-        // revalidate().then((isDone) => {
-        //   resolve(isDone);
-        // });
-      }, 100);
+      setListParams({
+        skip: `${startIndex}`,
+        limit: `${stopIndex - startIndex}`,
+      });
+      resolve();
     });
   }
 
@@ -268,7 +270,7 @@ export default function Search() {
               <InfiniteLoader
                 isRowLoaded={isRowLoaded}
                 loadMoreRows={loadMoreRows}
-                rowCount={1000}
+                rowCount={rowCount}
               >
                 {({ onRowsRendered, registerChild }) => (
                   <AutoSizer disableHeight>
