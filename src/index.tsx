@@ -19,27 +19,31 @@ import * as serviceWorker from './serviceWorker';
 import 'assets/css/material-dashboard-react.css?v=1.8.0';
 import 'assets/css/react-datetime.css';
 
-const hist = createBrowserHistory();
+const history = createBrowserHistory();
+
+// console.log('hist', history);
+
 
 interface ComponentType {
   component: React.ComponentType<RouteComponentProps<{}>>;
   restricted?: boolean;
 }
 
+let  pathname:string = '/admin';
 const PrivateRoute = ({
   component: Component,
   ...rest
 }: RouteProps & ComponentType) => {
   const { data } = useContext(DataContext);
   const isLogin = !!data.user;
+  pathname = rest.location?.pathname || '/admin';
   return (
     // Show the component only when the user is logged in
     // Otherwise, redirect the user to /signin page
     <Route
       {...rest}
       render={(props) =>
-        isLogin ? <Component {...props} /> : <Redirect to="/login" />
-      }
+        isLogin ? <Component {...props} /> : <Redirect to="/login" />}
     />
   );
 };
@@ -58,33 +62,32 @@ const PublicRoute = ({
       {...rest}
       render={(props) =>
         isLogin && restricted ? (
-          <Redirect to="/admin" />
+          <Redirect to={pathname} />
         ) : (
           <Component {...props} />
-        )
-      }
+        )}
     />
   );
 };
 
 const OrigenRoute = () => {
   // TODO: 封装起来
-  const { dispatch } = useContext(DataContext);
-  useEffect(() => {
-    const userString = localStorage.getItem('sessionToken');
-    if (userString) {
-      const user = JSON.parse(userString);
-      //   console.log('user', user);
-      //   defaultInitialState.user = user;
-      dispatch({ type: 'login', user });
-      //   setTimeout(() => {
-      //     _dispatch({ type: 'login', user });
-      //   }, 100);
-    }
-  }, [dispatch]);
+//   const { dispatch } = useContext(DataContext);
+//   useEffect(() => {
+//     const userString = localStorage.getItem('sessionToken');
+//     if (userString) {
+//       const user = JSON.parse(userString);
+//       //   console.log('user', user);
+//       //   defaultInitialState.user = user;
+//       dispatch({ type: 'login', user });
+//       //   setTimeout(() => {
+//       //     _dispatch({ type: 'login', user });
+//       //   }, 100);
+//     }
+//   }, [dispatch]);
 
   return (
-    <Router history={hist}>
+    <Router history={history}>
       <Switch>
         <PrivateRoute path="/admin" component={Admin} />
         <PublicRoute path="/login" restricted={true} component={LoginPage} />

@@ -25,9 +25,23 @@ export interface BaseProviderValueType {
   dispatch: React.Dispatch<Action>;
 }
 
+
+
 const defaultInitialState = {
   user: undefined,
 };
+
+const userString = localStorage.getItem('sessionToken');
+if (userString) {
+  defaultInitialState.user = JSON.parse(userString);
+  //   console.log('user', user);
+  //   defaultInitialState.user = user;
+//   dispatch({ type: 'login', user });
+  //   setTimeout(() => {
+  //     _dispatch({ type: 'login', user });
+  //   }, 100);
+}
+
 
 export const DataContext = createContext<BaseProviderValueType>({
   data: defaultInitialState,

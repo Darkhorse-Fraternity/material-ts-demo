@@ -37,6 +37,7 @@ import { useApiGetOrder } from 'api';
 import moment from 'moment';
 import { resolve } from 'path';
 import { number } from 'prop-types';
+import { NoRowsRenderer } from 'components/Table/VirtualizedTable';
 
 const categorys = [
   { lable: '选择1', value: 'value1' },
@@ -118,22 +119,24 @@ export default function Search() {
   const { results = [] } = data || {};
 
   const listRef = useRef(results);
-  if(listParams.skip === '0'){
-    listRef.current = results;
-  }else if(listRef.current.length <  Number(listParams.limit) + Number(listParams.skip) ){
-    listRef.current.push(...results);
+  if (listParams.skip === '0') {
+    // listRef.current = results;
+  } else if (listRef.current.length) {
+    // listRef.current.push(...results);
   }
   const list = listRef.current;
   //   const ref = useRef(results);
   // if(listParams.)
-  const rowCount = list.length < Number(listParams.limit) + Number(listParams.skip) ?list.length:list.length + 100;
+  const rowCount =
+    list.length < Number(listParams.limit) + Number(listParams.skip)
+      ? list.length
+      : list.length + 100;
 
   function isRowLoaded({ index }: Index) {
     return !!list[index];
   }
 
   function loadMoreRows({ startIndex, stopIndex }: IndexRange) {
-
     // 如果是异步的话，就做延迟吧。
 
     // eslint-disable-next-line no-shadow
@@ -278,7 +281,7 @@ export default function Search() {
                       <Table
                         ref={registerChild}
                         onRowsRendered={onRowsRendered}
-                        noRowsRenderer={noRowsRenderer}
+                        noRowsRenderer={NoRowsRenderer}
                         width={width}
                         height={300}
                         headerHeight={40}
