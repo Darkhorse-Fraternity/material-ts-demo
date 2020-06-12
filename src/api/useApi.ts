@@ -27,6 +27,8 @@ export default function useApi<Data = unknown, Error = unknown>(
   reuqest: Function,
   { initialData, ...config }: Config<Data, Error> = {}
 ): Return<Data, Error> {
+  console.log('useApi', data);
+    
   const { data: response, error, isValidating, revalidate, mutate } = useSWR<
   AxiosResponse<Data>,
   AxiosError<Error>
@@ -50,6 +52,8 @@ export default function useApi<Data = unknown, Error = unknown>(
     }
   );
 
+  console.log('response', response);
+  
   return {
     data: response && response.data,
     response,

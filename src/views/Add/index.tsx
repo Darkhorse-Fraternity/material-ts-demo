@@ -1,4 +1,10 @@
-import React, { FC } from 'react';
+import React, {
+  FC,
+  BaseSyntheticEvent,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 // @material-ui/core components
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -9,7 +15,12 @@ import GridContainer from 'components/Grid/GridContainer';
 import CustomInput from 'components/CustomInput/CustomInput';
 // import { RegularButtonType } from 'components/CustomButtons/Button';
 import Datetime, { DatetimepickerProps } from 'react-datetime';
-import { FormGroup, Checkbox, FormControlLabel, CheckboxProps } from '@material-ui/core';
+import {
+  FormGroup,
+  Checkbox,
+  FormControlLabel,
+  CheckboxProps,
+} from '@material-ui/core';
 import CardBody from 'components/Card/CardBody';
 import CardHeader from 'components/Card/CardHeader';
 import Card from 'components/Card/Card';
@@ -19,6 +30,10 @@ import FormControl from '@material-ui/core/FormControl';
 import Button, { ButtonTypeMap } from '@material-ui/core/Button';
 import { useForm, Controller } from 'react-hook-form';
 import * as yup from 'yup';
+import {} from 'config/yue';
+import Alert from '@material-ui/lab/Alert';
+import { useApiPostOrder, ApiPostOrderRequest } from 'api';
+import { useHistory } from 'react-router-dom';
 // const moment = require('moment');
 require('moment/locale/zh-cn');
 
@@ -26,26 +41,25 @@ const validationSchema = yup.object().shape({
   startTime: yup
     .date()
     .required()
-  // .matches(reg, '手机号码不正确。')
+    // .matches(reg, '手机号码不正确。')
     .label('开始时间'),
   endTime: yup
     .date()
     .required()
-  // .matches(reg, '手机号码不正确。')
+    // .matches(reg, '手机号码不正确。')
     .label('结束时间'),
   payType: yup.string().max(50).trim().required().label('支付类型'),
   statu: yup.number().max(1).required().label('支付状态'),
-  discrib: yup.string().max(1).trim().required().label('支付描述'),
+  discrib: yup.string().max(500).trim().label('支付描述'),
 });
 
 export type OrderType = {
   startTime: Date;
   endTime: Date;
-  payType:string;
-  statu:number;
-  discrib:string;
+  payType: string;
+  statu: number;
+  discrib: string;
 };
-
 
 const categorys = [
   { lable: '微信支付', value: 'wechat' },
@@ -77,9 +91,6 @@ const RadioButton: FC<RadioButtonType> = (props) => {
     </Button>
   );
 };
-
-
-
 
 const styles = {
   cardCategoryWhite: {
@@ -116,13 +127,12 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-
 interface RadioButtonsType {
-  value?:string;
-  onChange?:(e: unknown) => void
+  value?: string;
+  onChange?: (e: unknown) => void;
 }
 
-const RadioButtons = (props:RadioButtonsType)=>{
+const RadioButtons = (props: RadioButtonsType) => {
   const { value, onChange } = props;
   return (
     <>
@@ -140,53 +150,77 @@ const RadioButtons = (props:RadioButtonsType)=>{
   );
 };
 
-
 interface CheckboxGroupType extends CheckboxProps {
-  value?:{checked:boolean}
-  onCheck?:(e:{checked:boolean})=>void
+  value?: number;
+  onCheck?: (e: unknown) => void;
 }
 
-const CheckboxGroup = (props:CheckboxGroupType)=>{
+const CheckboxGroup = (props: CheckboxGroupType) => {
   const { onCheck, value } = props;
   return (
     <FormGroup row>
       <FormControlLabel
         control={
           <Checkbox
-            checked={!!value && value.checked}
-            onChange={(e, checked)=>{                
-              onCheck && onCheck({ checked });
+            checked={value === 1}
+            onChange={(e, checked) => {
+              onCheck && onCheck(checked ? 1 : 0);
             }}
             name="checkedA"
           />
-          }
+        }
         label="已支付"
       />
     </FormGroup>
   );
 };
 
-
 export default function Add(props: unknown) {
   const classes = useStyles();
 
-  const [state, setState] = React.useState({
-    checkedA: true,
-    checkedB: true,
-    checkedF: true,
-    checkedG: true,
-  });
-
-  const handleChangeState = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setState({ ...state, [event.target.name]: event.target.checked });
-  };
-
+  const [reqData, setReqData] = useState<ApiPostOrderRequest>();
+  const history = useHistory();
+  const { data, revalidate } = useApiPostOrder(
+    reqData || ({} as ApiPostOrderRequest),
+    {
+      autoTrigger: false,
+    }
+  );
 
   const { control, handleSubmit, errors } = useForm<OrderType>({
     validationSchema,
     mode: 'onSubmit',
     defaultValues: { payType: 'wechat' },
   });
+
+  const onSubmit = (signIndata: OrderType, event?: BaseSyntheticEvent) => {
+    event && event.preventDefault();
+    const { startTime, endTime, ...rest } = signIndata;
+    setReqData({
+      ...rest,
+      startTime: { __type: 'Date', iso: startTime.toISOString() },
+      endTime: { __type: 'Date', iso: endTime.toISOString() },
+    });
+    // mutate();
+  };
+
+  useEffect(() => {
+    if (reqData) {
+      revalidate().then((done) => {
+        //   done &&
+        done && history.push('Search');
+      });
+    }
+  }, [reqData, revalidate]);
+
+  const memoHanleSubmit = useCallback(handleSubmit(onSubmit), []);
+
+  const errorKeys = Object.keys(errors);
+  const errorMessage = (errorKeys.length > 0 &&
+    (errors[errorKeys[0] as 'statu'] as { message: string })) || {
+    message: '',
+  };
+  console.log('errorMessage', errorMessage);
 
   return (
     <div>
@@ -198,6 +232,15 @@ export default function Add(props: unknown) {
               <p className={classes.cardCategoryWhite}>订单提交</p>
             </CardHeader>
             <CardBody>
+              {errorMessage.message.length > 0 && (
+                <Alert
+                  severity="error"
+                  color="error"
+                  style={{ marginBottom: 20 }}
+                >
+                  {errorMessage.message}
+                </Alert>
+              )}
               <GridContainer>
                 <GridItem xs={12} sm={12} md={12}>
                   <InputLabel
@@ -244,12 +287,11 @@ export default function Add(props: unknown) {
                   <FormControl fullWidth>
                     <Controller
                       as={Datetime}
-                    // error={!!errors.payType}
+                      // error={!!errors.payType}
                       inputProps={{ placeholder: '选择开始时间' }}
                       name="startTime"
                       control={control}
                     />
-
                   </FormControl>
                 </GridItem>
                 <GridItem xs={12} sm={12} md={6}>
@@ -263,7 +305,7 @@ export default function Add(props: unknown) {
                   <FormControl fullWidth>
                     <Controller
                       as={Datetime}
-                    // error={!!errors.payType}
+                      // error={!!errors.payType}
                       inputProps={{ placeholder: '选择结束时间' }}
                       name="endTime"
                       control={control}
@@ -304,7 +346,9 @@ export default function Add(props: unknown) {
               </GridContainer>
             </CardBody>
             <CardFooter>
-              <Button color="primary">提交</Button>
+              <Button onClick={memoHanleSubmit} color="primary">
+                提交
+              </Button>
             </CardFooter>
           </Card>
         </GridItem>
